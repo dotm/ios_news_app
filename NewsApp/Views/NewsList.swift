@@ -122,9 +122,12 @@ final class NewsCollectionViewCell: UICollectionViewCell {
     var news: NewsViewModel = defaultNewsViewModel{
         didSet {
             newsTitleLabel.text = news.title
-            newsImageView.imageURL = news.imageURL
             newsDateLabel.text = news.date
             newsSnippet.text = news.snippet
+            
+            //always set .key before the .imageURL for correct caching behavior
+            newsImageView.key = news._id
+            newsImageView.imageURL = news.imageURL
         }
     }
     

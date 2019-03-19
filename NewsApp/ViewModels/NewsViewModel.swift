@@ -9,10 +9,12 @@
 import UIKit
 
 struct NewsViewModel {
+    let _id: String
     let title: String
     let imageURL: URL?
     let date: String
     let snippet: String
 }
 
-let defaultNewsViewModel = NewsViewModel(title: "News Title", imageURL: nil, date: "Date Unknown", snippet: "No snippet found for this news. No snippet found for this news. No snippet found for this news. No snippet found for this news. No snippet found for this news.")
+let emptyID = "null"
+let defaultNewsViewModel = NewsViewModel(_id: emptyID, title: "News Title", imageURL: nil, date: "Date Unknown", snippet: "No snippet found for this news. No snippet found for this news. No snippet found for this news. No snippet found for this news. No snippet found for this news.")

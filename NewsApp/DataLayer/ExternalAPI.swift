@@ -30,6 +30,7 @@ func getNewsList(query: String?, page: Int, completion: @escaping ([NewsViewMode
             let arr = newsList?.map({ (news) -> NewsViewModel in
                 let headline = news["headline"] as? [String:Any]
                 let title = headline?["main"] as? String
+                let _id = news["_id"] as? String
                 let date = news["pub_date"] as? String
                 let snippet = news["snippet"] as? String
                 
@@ -52,6 +53,7 @@ func getNewsList(query: String?, page: Int, completion: @escaping ([NewsViewMode
                 
                 
                 return NewsViewModel(
+                    _id: _id ?? "_id not found",
                     title: title ?? "Invalid Title",
                     imageURL: imageURL,
                     date: date ?? "Invalid Date",
