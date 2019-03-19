@@ -10,7 +10,7 @@ import UIKit
 
 class NewsFeedViewController: UIViewController {
     //MARK: Outlets
-    private var newsList: NewsList!
+    private weak var newsList: NewsList!
 
     //MARK: Lifecycle Hooks
     override func viewDidLoad() {
@@ -28,7 +28,6 @@ class NewsFeedViewController: UIViewController {
     //MARK: Layout
     final private func setupLayout(){
         self.title = "News Feed"
-        self.view.backgroundColor = .white
         
         setupNewsList()
     }

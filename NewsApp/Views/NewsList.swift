@@ -8,7 +8,12 @@
 
 import UIKit
 
-class NewsList: UIView {
+final class NewsList: UIView {
+    //MARK: Properties
+    private let CELL_ID = "My news cell"
+    
+    //MARK: Outlets
+    private weak var newsCollectionView: UICollectionView!
 
     //MARK: Initializers
     convenience init() {
@@ -25,6 +30,140 @@ class NewsList: UIView {
     
     //MARK: Layout
     final private func setupLayout(){
-        self.backgroundColor = .yellow
+        NotificationCenter.default.addObserver(self, selector: #selector(setCollectionViewColumns), name: UIDevice.orientationDidChangeNotification, object: nil)
+        
+        setupCollectionView()
     }
+    final private func setupCollectionView(){
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: getCollectionViewLayout())
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.backgroundColor = UIColor(white: 0.8, alpha: 1)
+        collectionView.register(NewsCollectionViewCell.self, forCellWithReuseIdentifier: CELL_ID)
+        
+        self.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        collectionView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        
+        self.newsCollectionView = collectionView
+    }
+    @objc final private func setCollectionViewColumns(){
+        newsCollectionView.collectionViewLayout = getCollectionViewLayout()
+    }
+    final private func getCollectionViewLayout() -> UICollectionViewFlowLayout {
+        let spacing = CGFloat(10)
+        let margins = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
+        var cellsPerRow = 1
+        
+        let deviceOrientation = UIDevice.current.orientation
+        if deviceOrientation.isPortrait {
+            cellsPerRow = 1
+        }else if deviceOrientation.isLandscape {
+            cellsPerRow = 4
+        }
+        
+        let layout = ColumnFlowLayout(cellsPerRow: cellsPerRow, minimumInteritemSpacing: spacing, minimumLineSpacing: spacing, sectionInset: margins)
+        return layout
+    }
+}
+
+extension NewsList: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 8
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CELL_ID, for: indexPath) as! NewsCollectionViewCell
+        
+        cell.news = NewsViewModel(title: "Title \(indexPath.row)")
+        
+        return cell
+    }
+}
+extension NewsList: UICollectionViewDelegate {
+    
+}
+
+
+struct NewsViewModel {
+    let title: String
+}
+let defaultNewsViewModel = NewsViewModel(title: "News Title")
+
+final class NewsCollectionViewCell: UICollectionViewCell {
+    //MARK: Properties
+    var news: NewsViewModel = defaultNewsViewModel{
+        didSet {
+            newsTitleLabel.text = news.title
+        }
+    }
+    
+    //MARK: Outlets
+    private weak var newsTitleLabel: UILabel!
+    
+    //MARK: Lifecycle Hook
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupLayout()
+    }
+    
+    //MARK: Setup Layout
+    private func setupLayout(){
+        self.backgroundColor = .white
+        setupNewsTitleLabel()
+    }
+    private func setupNewsTitleLabel(){
+        let label = UILabel()
+        label.text = news.title
+        
+        let parent = self
+        parent.addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.centerXAnchor.constraint(equalTo: parent.centerXAnchor).isActive = true
+        label.bottomAnchor.constraint(equalTo: parent.bottomAnchor).isActive = true
+        label.widthAnchor.constraint(equalTo: parent.widthAnchor).isActive = true
+        label.heightAnchor.constraint(lessThanOrEqualTo: parent.heightAnchor).isActive = true
+        
+        self.newsTitleLabel = label
+    }
+}
+final class ColumnFlowLayout: UICollectionViewFlowLayout {
+    
+    let cellsPerRow: Int
+    
+    init(cellsPerRow: Int, minimumInteritemSpacing: CGFloat = 0, minimumLineSpacing: CGFloat = 0, sectionInset: UIEdgeInsets = .zero) {
+        self.cellsPerRow = cellsPerRow
+        super.init()
+        
+        self.minimumInteritemSpacing = minimumInteritemSpacing
+        self.minimumLineSpacing = minimumLineSpacing
+        self.sectionInset = sectionInset
+        self.scrollDirection = .vertical
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepare() {
+        super.prepare()
+        
+        guard let collectionView = collectionView else { return }
+        let marginsAndInsets = sectionInset.left + sectionInset.right + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
+        let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
+        itemSize = CGSize(width: itemWidth, height: itemWidth)
+    }
+    
+    override func invalidationContext(forBoundsChange newBounds: CGRect) -> UICollectionViewLayoutInvalidationContext {
+        let context = super.invalidationContext(forBoundsChange: newBounds) as! UICollectionViewFlowLayoutInvalidationContext
+        context.invalidateFlowLayoutDelegateMetrics = newBounds.size != collectionView?.bounds.size
+        return context
+    }
+    
 }
