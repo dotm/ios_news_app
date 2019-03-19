@@ -78,7 +78,7 @@ extension NewsList: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CELL_ID, for: indexPath) as! NewsCollectionViewCell
         
-        cell.news = NewsViewModel(title: "Title \(indexPath.row)")
+        cell.news = defaultNewsViewModel
         
         return cell
     }
@@ -100,6 +100,7 @@ final class NewsCollectionViewCell: UICollectionViewCell {
     //MARK: Outlets
     private weak var newsTitleLabel: UILabel!
     private weak var newsImageView: UIImageView!
+    private weak var newsDateLabel: UILabel!
     
     //MARK: Lifecycle Hook
     required init?(coder aDecoder: NSCoder) {
@@ -118,7 +119,7 @@ final class NewsCollectionViewCell: UICollectionViewCell {
         
         setupNewsTitleLabel()
         setupNewsImageView(previousElement: newsTitleLabel)
-        
+        setupNewsDate(previousElement: newsImageView)
     }
     private func setupNewsTitleLabel(){
         let label = UILabel()
@@ -148,6 +149,20 @@ final class NewsCollectionViewCell: UICollectionViewCell {
         imageView.heightAnchor.constraint(lessThanOrEqualTo: parent.heightAnchor).isActive = true
         
         self.newsImageView = imageView
+    }
+    private func setupNewsDate(previousElement: UIView){
+        let label = UILabel()
+        label.text = news.date
+        
+        let parent = self
+        parent.addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.centerXAnchor.constraint(equalTo: parent.centerXAnchor).isActive = true
+        label.topAnchor.constraint(equalTo: previousElement.bottomAnchor).isActive = true
+        label.widthAnchor.constraint(equalTo: parent.widthAnchor).isActive = true
+        label.heightAnchor.constraint(lessThanOrEqualTo: parent.heightAnchor).isActive = true
+        
+        self.newsDateLabel = label
     }
 }
 final class ColumnFlowLayout: UICollectionViewFlowLayout {
