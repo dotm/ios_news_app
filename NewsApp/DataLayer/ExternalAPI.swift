@@ -35,7 +35,6 @@ func getNewsList(query: String?, page: Int, completion: @escaping ([NewsViewMode
                 
                 let multimedia = news["multimedia"] as? [[String:Any]]
                 let imageForPhone = multimedia?.first
-                print(imageForPhone?["url"] as? String)
                 let image: UIImage
                 
                 do {
@@ -50,7 +49,7 @@ func getNewsList(query: String?, page: Int, completion: @escaping ([NewsViewMode
                     }
                     image = imageData
                 }catch{
-                    print(error)
+                    //print(error)
                     image = defaultNewsImage
                 }
                 
