@@ -6,9 +6,14 @@
 //  Copyright © 2019 Yoshua Elmaryono. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct NewsViewModel {
     let title: String
+    var image: UIImage = UIImage(named:"default")!
+    
+    init(title: String) {
+        self.title = title
+    }
 }
 let defaultNewsViewModel = NewsViewModel(title: "News Title")

@@ -38,7 +38,7 @@ final class NewsList: UIView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: getCollectionViewLayout())
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.backgroundColor = UIColor(white: 0.8, alpha: 1)
+        collectionView.backgroundColor = .white
         collectionView.register(NewsCollectionViewCell.self, forCellWithReuseIdentifier: CELL_ID)
         
         self.addSubview(collectionView)
@@ -93,11 +93,13 @@ final class NewsCollectionViewCell: UICollectionViewCell {
     var news: NewsViewModel = defaultNewsViewModel{
         didSet {
             newsTitleLabel.text = news.title
+            newsImageView.image = news.image
         }
     }
     
     //MARK: Outlets
     private weak var newsTitleLabel: UILabel!
+    private weak var newsImageView: UIImageView!
     
     //MARK: Lifecycle Hook
     required init?(coder aDecoder: NSCoder) {
@@ -111,21 +113,41 @@ final class NewsCollectionViewCell: UICollectionViewCell {
     //MARK: Setup Layout
     private func setupLayout(){
         self.backgroundColor = .white
+        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.borderWidth = CGFloat(2)
+        
         setupNewsTitleLabel()
+        setupNewsImageView(previousElement: newsTitleLabel)
+        
     }
     private func setupNewsTitleLabel(){
         let label = UILabel()
         label.text = news.title
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         
         let parent = self
         parent.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.centerXAnchor.constraint(equalTo: parent.centerXAnchor).isActive = true
-        label.bottomAnchor.constraint(equalTo: parent.bottomAnchor).isActive = true
+        label.topAnchor.constraint(equalTo: parent.topAnchor).isActive = true
         label.widthAnchor.constraint(equalTo: parent.widthAnchor).isActive = true
         label.heightAnchor.constraint(lessThanOrEqualTo: parent.heightAnchor).isActive = true
         
         self.newsTitleLabel = label
+    }
+    private func setupNewsImageView(previousElement: UIView){
+        let imageView = UIImageView()
+        imageView.image = news.image
+        
+        let parent = self
+        parent.addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.centerXAnchor.constraint(equalTo: parent.centerXAnchor).isActive = true
+        imageView.topAnchor.constraint(equalTo: previousElement.bottomAnchor).isActive = true
+        imageView.widthAnchor.constraint(equalTo: parent.widthAnchor).isActive = true
+        imageView.heightAnchor.constraint(lessThanOrEqualTo: parent.heightAnchor).isActive = true
+        
+        self.newsImageView = imageView
     }
 }
 final class ColumnFlowLayout: UICollectionViewFlowLayout {
