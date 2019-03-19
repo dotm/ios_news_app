@@ -10,10 +10,14 @@ import UIKit
 
 struct NewsViewModel {
     let title: String
-    var image: UIImage = UIImage(named:"default")!
+    let image: UIImage
     
     init(title: String) {
         self.title = title
+        image = UIImage(named:"default")!
+    }
+    init(title: String, image: UIImage?) {
+        self.init(title: title)
     }
 }
 let defaultNewsViewModel = NewsViewModel(title: "News Title")
