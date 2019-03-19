@@ -13,6 +13,7 @@
 		3740E7962240E03D001AFE05 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3740E7952240E03D001AFE05 /* Assets.xcassets */; };
 		3740E7992240E03D001AFE05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3740E7972240E03D001AFE05 /* LaunchScreen.storyboard */; };
 		3740E7A42240E03D001AFE05 /* NewsAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3740E7A32240E03D001AFE05 /* NewsAppUITests.swift */; };
+		3740E7AF2240E218001AFE05 /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3740E7AE2240E218001AFE05 /* NewsDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		3740E79F2240E03D001AFE05 /* NewsAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewsAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3740E7A32240E03D001AFE05 /* NewsAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsAppUITests.swift; sourceTree = "<group>"; };
 		3740E7A52240E03D001AFE05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3740E7AE2240E218001AFE05 /* NewsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 			children = (
 				3740E78B2240E03C001AFE05 /* AppDelegate.swift */,
 				3740E78D2240E03C001AFE05 /* NewsFeedViewController.swift */,
+				3740E7AE2240E218001AFE05 /* NewsDetailViewController.swift */,
 				3740E7952240E03D001AFE05 /* Assets.xcassets */,
 				3740E7972240E03D001AFE05 /* LaunchScreen.storyboard */,
 				3740E79A2240E03D001AFE05 /* Info.plist */,
@@ -196,6 +199,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3740E7AF2240E218001AFE05 /* NewsDetailViewController.swift in Sources */,
 				3740E78E2240E03C001AFE05 /* NewsFeedViewController.swift in Sources */,
 				3740E78C2240E03C001AFE05 /* AppDelegate.swift in Sources */,
 				3740E7942240E03C001AFE05 /* NewsApp.xcdatamodeld in Sources */,

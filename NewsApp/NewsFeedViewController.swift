@@ -13,9 +13,18 @@ class NewsFeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.view.backgroundColor = .red
+        self.title = "News Feed"
+        self.view.backgroundColor = .white
+        
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { (_) in
+            self.goToNewsDetailPage()
+        }
     }
-
+    
+    final private func goToNewsDetailPage(){
+        let newsDetail = NewsDetailViewController()
+        self.navigationController?.pushViewController(newsDetail, animated: true)
+    }
 
 }
 
