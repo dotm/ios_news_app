@@ -101,6 +101,7 @@ final class NewsCollectionViewCell: UICollectionViewCell {
     private weak var newsTitleLabel: UILabel!
     private weak var newsImageView: UIImageView!
     private weak var newsDateLabel: UILabel!
+    private weak var newsSnippet: UITextView!
     
     //MARK: Lifecycle Hook
     required init?(coder aDecoder: NSCoder) {
@@ -120,6 +121,7 @@ final class NewsCollectionViewCell: UICollectionViewCell {
         setupNewsTitleLabel()
         setupNewsImageView(previousElement: newsTitleLabel)
         setupNewsDate(previousElement: newsImageView)
+        setupNewsSnippet(previousElement: newsDateLabel)
     }
     private func setupNewsTitleLabel(){
         let label = UILabel()
@@ -163,6 +165,22 @@ final class NewsCollectionViewCell: UICollectionViewCell {
         label.heightAnchor.constraint(lessThanOrEqualTo: parent.heightAnchor).isActive = true
         
         self.newsDateLabel = label
+    }
+    private func setupNewsSnippet(previousElement: UIView){
+        let snippet = UITextView()
+        snippet.isEditable = false
+        snippet.text = news.snippet
+        snippet.font = UIFont.systemFont(ofSize: 20)
+        
+        let parent = self
+        parent.addSubview(snippet)
+        snippet.translatesAutoresizingMaskIntoConstraints = false
+        snippet.centerXAnchor.constraint(equalTo: parent.centerXAnchor).isActive = true
+        snippet.topAnchor.constraint(equalTo: previousElement.bottomAnchor).isActive = true
+        snippet.widthAnchor.constraint(equalTo: parent.widthAnchor).isActive = true
+        snippet.heightAnchor.constraint(lessThanOrEqualTo: parent.heightAnchor).isActive = true
+        
+        self.newsSnippet = snippet
     }
 }
 final class ColumnFlowLayout: UICollectionViewFlowLayout {
