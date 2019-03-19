@@ -145,8 +145,10 @@ extension NewsList: UICollectionViewDelegate {
         guard !loadingMoreNews else {return}
         
         loadingMoreNews = true
-        getNewsList(query: nil, page: loadedPages) { (newsViewModels) in
+        getNewsList(query: nil, page: loadedPages) { (newsViewModels, error) in
             self.loadingMoreNews = false
+            guard error == nil else {return}
+            
             if let newsViewModels = newsViewModels {
                 self.newsList += newsViewModels
                 self.loadedPages += 1

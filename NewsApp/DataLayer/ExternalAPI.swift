@@ -11,18 +11,17 @@ import UIKit
 let NEW_YORK_TIMES_API_KEY = "pe0F0AWLBNiNzAAj9IZnGtK1XUeBG1uS"
 let NEW_YORK_TIMES_ABSOLUTE_URL = URL(string: "http://www.nytimes.com")
 
-func getNewsList(query: String?, page: Int, completion: @escaping ([NewsViewModel]?)->()){
+func getNewsList(query: String?, page: Int, completion: @escaping ([NewsViewModel]?,Error?)->()){
     let emptyQuery = ""
     let urlString = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=\(query ?? emptyQuery)&page=\(page)&api-key=\(NEW_YORK_TIMES_API_KEY)"
     let url = URL(string: urlString)!
     
     let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-        guard let data = data, error == nil else {
-            print("Error fetching news list data:", error!.localizedDescription)
-            return
-        }
-        
         do {
+            guard let data = data, error == nil else {
+                throw "Error fetching news list data: \(error!.localizedDescription)"
+            }
+            
             let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String:Any]
             let response = dictionary?["response"] as? [String:Any]
             let newsList = response?["docs"] as? [[String:Any]]
@@ -60,8 +59,9 @@ func getNewsList(query: String?, page: Int, completion: @escaping ([NewsViewMode
                     snippet: snippet ?? "Invalid Snippet")
             })
             
-            completion(arr)
+            completion(arr,nil)
         } catch {
+            completion(nil,error)
             print(error.localizedDescription)
         }
     }
