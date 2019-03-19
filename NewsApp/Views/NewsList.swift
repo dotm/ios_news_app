@@ -54,7 +54,7 @@ final class NewsList: UIView {
         newsCollectionView.collectionViewLayout = getCollectionViewLayout()
     }
     final private func getCollectionViewLayout() -> UICollectionViewFlowLayout {
-        let spacing = CGFloat(10)
+        let spacing = CGFloat(20)
         let margins = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
         var cellsPerRow = 1
         
@@ -115,8 +115,10 @@ final class NewsCollectionViewCell: UICollectionViewCell {
     //MARK: Setup Layout
     private func setupLayout(){
         self.backgroundColor = .white
-        self.layer.borderColor = UIColor.black.cgColor
-        self.layer.borderWidth = CGFloat(2)
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOffset = CGSize(width: 0, height: 0)
+        self.layer.shadowOpacity = 0.7
+        self.layer.shadowRadius = 4.0
         
         setupNewsTitleLabel()
         setupNewsImageView(previousElement: newsTitleLabel)
@@ -169,6 +171,8 @@ final class NewsCollectionViewCell: UICollectionViewCell {
     private func setupNewsSnippet(previousElement: UIView){
         let snippet = UITextView()
         snippet.isEditable = false
+        snippet.isScrollEnabled = false
+        
         snippet.text = news.snippet
         snippet.font = UIFont.systemFont(ofSize: 20)
         
@@ -178,7 +182,7 @@ final class NewsCollectionViewCell: UICollectionViewCell {
         snippet.centerXAnchor.constraint(equalTo: parent.centerXAnchor).isActive = true
         snippet.topAnchor.constraint(equalTo: previousElement.bottomAnchor).isActive = true
         snippet.widthAnchor.constraint(equalTo: parent.widthAnchor).isActive = true
-        snippet.heightAnchor.constraint(lessThanOrEqualTo: parent.heightAnchor).isActive = true
+        snippet.bottomAnchor.constraint(lessThanOrEqualTo: parent.bottomAnchor).isActive = true
         
         self.newsSnippet = snippet
     }
