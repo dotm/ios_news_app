@@ -19,6 +19,8 @@ final class NewsList: UIView {
     
     //MARK: Properties
     private let CELL_ID = "My news cell"
+    private var loadedPages = 0
+    private var loadingMoreNews = false
     
     //MARK: Outlets
     private weak var newsCollectionView: UICollectionView!
@@ -41,6 +43,7 @@ final class NewsList: UIView {
         NotificationCenter.default.addObserver(self, selector: #selector(setCollectionViewColumns), name: UIDevice.orientationDidChangeNotification, object: nil)
         
         setupCollectionView()
+        loadMoreNews(page: loadedPages)
     }
     final private func setupCollectionView(){
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: getCollectionViewLayout())
@@ -94,7 +97,23 @@ extension NewsList: UICollectionViewDataSource {
     }
 }
 extension NewsList: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let showingLastNews = indexPath.row == newsList.count - 1
+        if showingLastNews {
+            if !loadingMoreNews {
+                loadMoreNews(page: loadedPages)
+            }
+        }
+    }
     
+    func loadMoreNews(page: Int) {
+        getNewsList(query: nil, page: loadedPages) { (newsViewModels) in
+            if let newsViewModels = newsViewModels {
+                self.newsList += newsViewModels
+                self.loadedPages += 1
+            }
+        }
+    }
 }
 
 
