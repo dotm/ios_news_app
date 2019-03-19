@@ -88,11 +88,6 @@ extension NewsList: UICollectionViewDelegate {
 }
 
 
-struct NewsViewModel {
-    let title: String
-}
-let defaultNewsViewModel = NewsViewModel(title: "News Title")
-
 final class NewsCollectionViewCell: UICollectionViewCell {
     //MARK: Properties
     var news: NewsViewModel = defaultNewsViewModel{
