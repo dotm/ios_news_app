@@ -35,28 +35,25 @@ func getNewsList(query: String?, page: Int, completion: @escaping ([NewsViewMode
                 
                 let multimedia = news["multimedia"] as? [[String:Any]]
                 let imageForPhone = multimedia?.first
-                let image: UIImage
+                let imageURL: URL?
                 
                 do {
                     guard let imageURLString = imageForPhone?["url"] as? String else {
                         throw "error1"
                     }
-                    guard let imageURL = URL(string: imageURLString, relativeTo: NEW_YORK_TIMES_ABSOLUTE_URL) else {
+                    guard let url = URL(string: imageURLString, relativeTo: NEW_YORK_TIMES_ABSOLUTE_URL) else {
                         throw "error2"
                     }
-                    guard let imageData = try UIImage(data: Data(contentsOf: imageURL)) else {
-                        throw "error3"
-                    }
-                    image = imageData
+                    imageURL = url
                 }catch{
                     //print(error)
-                    image = defaultNewsImage
+                    imageURL = nil
                 }
                 
                 
                 return NewsViewModel(
                     title: title ?? "Invalid Title",
-                    image: image,
+                    imageURL: imageURL,
                     date: date ?? "Invalid Date",
                     snippet: snippet ?? "Invalid Snippet")
             })

@@ -103,7 +103,7 @@ final class NewsCollectionViewCell: UICollectionViewCell {
     var news: NewsViewModel = defaultNewsViewModel{
         didSet {
             newsTitleLabel.text = news.title
-            newsImageView.image = news.image
+            newsImageView.imageURL = news.imageURL
             newsDateLabel.text = news.date
             newsSnippet.text = news.snippet
         }
@@ -111,7 +111,7 @@ final class NewsCollectionViewCell: UICollectionViewCell {
     
     //MARK: Outlets
     private weak var newsTitleLabel: UILabel!
-    private weak var newsImageView: UIImageView!
+    private weak var newsImageView: AsynchronousImageView!
     private weak var newsDateLabel: UILabel!
     private weak var newsSnippet: UITextView!
     
@@ -153,8 +153,7 @@ final class NewsCollectionViewCell: UICollectionViewCell {
         self.newsTitleLabel = label
     }
     private func setupNewsImageView(previousElement: UIView){
-        let imageView = UIImageView()
-        imageView.image = news.image
+        let imageView = AsynchronousImageView(url: news.imageURL)
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         
@@ -201,6 +200,40 @@ final class NewsCollectionViewCell: UICollectionViewCell {
         self.newsSnippet = snippet
     }
 }
+final class AsynchronousImageView: UIImageView {
+    private let defaultImage = UIImage(named:"default")!
+    init(url: URL?){
+        super.init(image: defaultImage)
+        
+        imageURL = url
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    var imageURL: URL? {
+        didSet {
+            if let url = imageURL {
+                loadImageAsnychronously(url: url)
+            }else{
+                image = defaultImage
+            }
+        }
+    }
+    private func loadImageAsnychronously(url: URL){
+        DispatchQueue.global(qos: .background).async {
+            do {
+                let image = try UIImage(data: Data(contentsOf: url))
+                DispatchQueue.main.async {
+                    self.image = image
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+}
+
 final class ColumnFlowLayout: UICollectionViewFlowLayout {
     
     let cellsPerRow: Int
