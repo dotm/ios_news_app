@@ -9,22 +9,40 @@
 import UIKit
 
 class NewsFeedViewController: UIViewController {
+    //MARK: Outlets
+    private var newsList: NewsList!
 
+    //MARK: Lifecycle Hooks
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.title = "News Feed"
-        self.view.backgroundColor = .white
-        
-        Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { (_) in
-            self.goToNewsDetailPage()
-        }
+        setupLayout()
     }
     
+    //MARK: Action
     final private func goToNewsDetailPage(){
         let newsDetail = NewsDetailViewController()
         self.navigationController?.pushViewController(newsDetail, animated: true)
     }
 
+    //MARK: Layout
+    final private func setupLayout(){
+        self.title = "News Feed"
+        self.view.backgroundColor = .white
+        
+        setupNewsList()
+    }
+    final private func setupNewsList(){
+        let newsList = NewsList()
+        view.addSubview(newsList)
+        
+        newsList.translatesAutoresizingMaskIntoConstraints = false
+        newsList.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        newsList.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        newsList.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        newsList.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        
+        self.newsList = newsList
+    }
 }
 
