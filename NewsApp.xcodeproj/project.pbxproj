@@ -16,6 +16,7 @@
 		3740E7AF2240E218001AFE05 /* NewsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3740E7AE2240E218001AFE05 /* NewsDetailViewController.swift */; };
 		3740E7B32240E46C001AFE05 /* NewsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3740E7B22240E46C001AFE05 /* NewsList.swift */; };
 		3740E7B72240E857001AFE05 /* NewsDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3740E7B62240E857001AFE05 /* NewsDetail.swift */; };
+		3740E7BA2240EF65001AFE05 /* ExternalAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3740E7B92240EF65001AFE05 /* ExternalAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		3740E7AE2240E218001AFE05 /* NewsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetailViewController.swift; sourceTree = "<group>"; };
 		3740E7B22240E46C001AFE05 /* NewsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsList.swift; sourceTree = "<group>"; };
 		3740E7B62240E857001AFE05 /* NewsDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetail.swift; sourceTree = "<group>"; };
+		3740E7B92240EF65001AFE05 /* ExternalAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				3740E78B2240E03C001AFE05 /* AppDelegate.swift */,
+				3740E7B82240EF42001AFE05 /* DataLayer */,
 				3740E7B12240E40D001AFE05 /* Views */,
 				3740E7B02240E375001AFE05 /* Controllers */,
 				3740E7952240E03D001AFE05 /* Assets.xcassets */,
@@ -119,6 +122,14 @@
 				3740E7B62240E857001AFE05 /* NewsDetail.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		3740E7B82240EF42001AFE05 /* DataLayer */ = {
+			isa = PBXGroup;
+			children = (
+				3740E7B92240EF65001AFE05 /* ExternalAPI.swift */,
+			);
+			path = DataLayer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,6 +235,7 @@
 				3740E7AF2240E218001AFE05 /* NewsDetailViewController.swift in Sources */,
 				3740E7B32240E46C001AFE05 /* NewsList.swift in Sources */,
 				3740E78E2240E03C001AFE05 /* NewsFeedViewController.swift in Sources */,
+				3740E7BA2240EF65001AFE05 /* ExternalAPI.swift in Sources */,
 				3740E78C2240E03C001AFE05 /* AppDelegate.swift in Sources */,
 				3740E7942240E03C001AFE05 /* NewsApp.xcdatamodeld in Sources */,
 				3740E7B72240E857001AFE05 /* NewsDetail.swift in Sources */,
