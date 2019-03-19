@@ -80,8 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				3740E78B2240E03C001AFE05 /* AppDelegate.swift */,
-				3740E78D2240E03C001AFE05 /* NewsFeedViewController.swift */,
-				3740E7AE2240E218001AFE05 /* NewsDetailViewController.swift */,
+				3740E7B02240E375001AFE05 /* Controllers */,
 				3740E7952240E03D001AFE05 /* Assets.xcassets */,
 				3740E7972240E03D001AFE05 /* LaunchScreen.storyboard */,
 				3740E79A2240E03D001AFE05 /* Info.plist */,
@@ -97,6 +96,15 @@
 				3740E7A52240E03D001AFE05 /* Info.plist */,
 			);
 			path = NewsAppUITests;
+			sourceTree = "<group>";
+		};
+		3740E7B02240E375001AFE05 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3740E78D2240E03C001AFE05 /* NewsFeedViewController.swift */,
+				3740E7AE2240E218001AFE05 /* NewsDetailViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
