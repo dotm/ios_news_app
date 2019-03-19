@@ -18,6 +18,7 @@
 		3740E7B72240E857001AFE05 /* NewsDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3740E7B62240E857001AFE05 /* NewsDetail.swift */; };
 		3740E7BA2240EF65001AFE05 /* ExternalAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3740E7B92240EF65001AFE05 /* ExternalAPI.swift */; };
 		3740E7BE22410BF7001AFE05 /* NewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3740E7BD22410BF7001AFE05 /* NewsViewModel.swift */; };
+		3740E7C322413A0E001AFE05 /* AsynchronousImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3740E7C222413A0E001AFE05 /* AsynchronousImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		3740E7B62240E857001AFE05 /* NewsDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetail.swift; sourceTree = "<group>"; };
 		3740E7B92240EF65001AFE05 /* ExternalAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAPI.swift; sourceTree = "<group>"; };
 		3740E7BD22410BF7001AFE05 /* NewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModel.swift; sourceTree = "<group>"; };
+		3740E7C222413A0E001AFE05 /* AsynchronousImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousImageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				3740E7B22240E46C001AFE05 /* NewsList.swift */,
+				3740E7C222413A0E001AFE05 /* AsynchronousImageView.swift */,
 				3740E7B62240E857001AFE05 /* NewsDetail.swift */,
 			);
 			path = Views;
@@ -250,6 +253,7 @@
 				3740E78C2240E03C001AFE05 /* AppDelegate.swift in Sources */,
 				3740E7942240E03C001AFE05 /* NewsApp.xcdatamodeld in Sources */,
 				3740E7B72240E857001AFE05 /* NewsDetail.swift in Sources */,
+				3740E7C322413A0E001AFE05 /* AsynchronousImageView.swift in Sources */,
 				3740E7BE22410BF7001AFE05 /* NewsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
