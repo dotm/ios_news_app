@@ -9,6 +9,8 @@
 import UIKit
 import CoreData
 
+extension String:Error{}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

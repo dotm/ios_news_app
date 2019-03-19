@@ -9,6 +9,14 @@
 import UIKit
 
 final class NewsList: UIView {
+    var newsList: [NewsViewModel] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.newsCollectionView.reloadData()
+            }
+        }
+    }
+    
     //MARK: Properties
     private let CELL_ID = "My news cell"
     
@@ -56,13 +64,15 @@ final class NewsList: UIView {
     final private func getCollectionViewLayout() -> UICollectionViewFlowLayout {
         let spacing = CGFloat(20)
         let margins = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
-        var cellsPerRow = 1
+        let cellsPerRow: Int
         
-        let deviceOrientation = UIDevice.current.orientation
-        if deviceOrientation.isPortrait {
-            cellsPerRow = 1
-        }else if deviceOrientation.isLandscape {
+        let screenWidth = UIScreen.main.bounds.width
+        let screenHeight = UIScreen.main.bounds.height
+        let deviceOrientation_isLandscape = screenWidth > screenHeight
+        if deviceOrientation_isLandscape {
             cellsPerRow = 4
+        }else{
+            cellsPerRow = 1
         }
         
         let layout = ColumnFlowLayout(cellsPerRow: cellsPerRow, minimumInteritemSpacing: spacing, minimumLineSpacing: spacing, sectionInset: margins)
@@ -72,13 +82,13 @@ final class NewsList: UIView {
 
 extension NewsList: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8
+        return newsList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CELL_ID, for: indexPath) as! NewsCollectionViewCell
         
-        cell.news = defaultNewsViewModel
+        cell.news = newsList[indexPath.row]
         
         return cell
     }
@@ -94,6 +104,8 @@ final class NewsCollectionViewCell: UICollectionViewCell {
         didSet {
             newsTitleLabel.text = news.title
             newsImageView.image = news.image
+            newsDateLabel.text = news.date
+            newsSnippet.text = news.snippet
         }
     }
     
@@ -143,6 +155,8 @@ final class NewsCollectionViewCell: UICollectionViewCell {
     private func setupNewsImageView(previousElement: UIView){
         let imageView = UIImageView()
         imageView.image = news.image
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         
         let parent = self
         parent.addSubview(imageView)
@@ -150,7 +164,7 @@ final class NewsCollectionViewCell: UICollectionViewCell {
         imageView.centerXAnchor.constraint(equalTo: parent.centerXAnchor).isActive = true
         imageView.topAnchor.constraint(equalTo: previousElement.bottomAnchor).isActive = true
         imageView.widthAnchor.constraint(equalTo: parent.widthAnchor).isActive = true
-        imageView.heightAnchor.constraint(lessThanOrEqualTo: parent.heightAnchor).isActive = true
+        imageView.heightAnchor.constraint(lessThanOrEqualTo: parent.heightAnchor, multiplier: 0.5).isActive = true
         
         self.newsImageView = imageView
     }

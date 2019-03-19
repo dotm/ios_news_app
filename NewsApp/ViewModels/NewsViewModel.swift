@@ -15,4 +15,5 @@ struct NewsViewModel {
     let snippet: String
 }
 
-let defaultNewsViewModel = NewsViewModel(title: "News Title", image: UIImage(named:"default")!, date: "Date Unknown", snippet: "No snippet found for this news. No snippet found for this news. No snippet found for this news. No snippet found for this news. No snippet found for this news.")
+let defaultNewsImage = UIImage(named:"default")!
+let defaultNewsViewModel = NewsViewModel(title: "News Title", image: defaultNewsImage, date: "Date Unknown", snippet: "No snippet found for this news. No snippet found for this news. No snippet found for this news. No snippet found for this news. No snippet found for this news.")

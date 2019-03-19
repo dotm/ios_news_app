@@ -17,6 +17,11 @@ class NewsFeedViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         setupLayout()
+        getNewsList(query: nil, page: 0) { (newsViewModels) in
+            if let newsViewModels = newsViewModels {
+                self.newsList.newsList = newsViewModels
+            }
+        }
     }
     
     //MARK: Action
