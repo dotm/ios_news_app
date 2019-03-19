@@ -20,10 +20,31 @@ final class NewsList: UIView {
     //MARK: Properties
     private let CELL_ID = "My news cell"
     private var loadedPages = 0
-    private var loadingMoreNews = false
+    private var loadingMoreNews = false {
+        didSet {
+            if loadingMoreNews {
+                blinkBackgroundColor()
+            }
+        }
+    }
+    private var defaultLoadedBackgroundColor = UIColor.white
+    private func blinkBackgroundColor(){
+        UIView.animate(withDuration: 1, animations: {
+            self.loadingIndicator.backgroundColor = .gray
+        }) { (_) in
+            UIView.animate(withDuration: 1, animations: {
+                self.loadingIndicator.backgroundColor = self.defaultLoadedBackgroundColor
+            }, completion: { (_) in
+                if self.loadingMoreNews {
+                    self.blinkBackgroundColor()  //continue blinking until finish loading
+                }
+            })
+        }
+    }
     
     //MARK: Outlets
     private weak var newsCollectionView: UICollectionView!
+    private weak var loadingIndicator: UIView!
 
     //MARK: Initializers
     convenience init() {
@@ -42,14 +63,28 @@ final class NewsList: UIView {
     final private func setupLayout(){
         NotificationCenter.default.addObserver(self, selector: #selector(setCollectionViewColumns), name: UIDevice.orientationDidChangeNotification, object: nil)
         
+        setupLoadingIndicator()
         setupCollectionView()
         loadMoreNews(page: loadedPages)
+    }
+    final private func setupLoadingIndicator(){
+        let view = UIView()
+        view.backgroundColor = defaultLoadedBackgroundColor
+        
+        self.addSubview(view)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        view.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        view.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        view.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        
+        self.loadingIndicator = view
     }
     final private func setupCollectionView(){
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: getCollectionViewLayout())
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = UIColor(white: 0, alpha: 0)
         collectionView.register(NewsCollectionViewCell.self, forCellWithReuseIdentifier: CELL_ID)
         
         self.addSubview(collectionView)
@@ -107,7 +142,11 @@ extension NewsList: UICollectionViewDelegate {
     }
     
     func loadMoreNews(page: Int) {
+        guard !loadingMoreNews else {return}
+        
+        loadingMoreNews = true
         getNewsList(query: nil, page: loadedPages) { (newsViewModels) in
+            self.loadingMoreNews = false
             if let newsViewModels = newsViewModels {
                 self.newsList += newsViewModels
                 self.loadedPages += 1
