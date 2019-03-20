@@ -71,8 +71,10 @@ extension NewsFeedViewController: UISearchBarDelegate {
     }
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         clearSearchTimer()
-        searchBar.text = ""
         searchBar.resignFirstResponder()
+        
+        searchBar.text = ""
+        self.newsList.query = ""
     }
 }
 
