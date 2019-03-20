@@ -115,8 +115,10 @@ enum SavedNewsStorage {
         
         do {
             try managedObjectContext.save()
+            Alert.bookmarkNews_success()
         } catch {
             print("Could not save news: \(error)")
+            Alert.bookmarkNews_failed()
         }
     }
     static private func delete_news(news: NewsViewModel){
