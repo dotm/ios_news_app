@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WebKit
 
 class NewsDetailViewController: UIViewController {    
     //MARK: Outlets
@@ -52,8 +53,10 @@ class NewsDetailViewController: UIViewController {
         setupNewsDetail()
     }
     final private func setBookmarkItem(){
-        print(SavedNewsStorage.getNewsList())
         self.navigationItem.rightBarButtonItem = getCorrectBookmarkItem()
+    }
+    private var newsLoaded = false {
+        didSet {setBookmarkItem()}
     }
     final private func getCorrectBookmarkItem() -> UIBarButtonItem{
         let news_isBookmarked: Bool
@@ -63,17 +66,20 @@ class NewsDetailViewController: UIViewController {
             news_isBookmarked = false
         }
         
-        if news_isBookmarked {
+        guard !news_isBookmarked else {
             let removeBookmark_button = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeCurrentNewsFromBookMark))
-            
             return removeBookmark_button
-        }else{
+        }
+        
+        if newsLoaded {
             let addBookmark_button = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(bookmarkCurrentNews))
             return addBookmark_button
+        }else{
+            return UIBarButtonItem(title: "Loading", style: UIBarButtonItem.Style.plain, target: nil, action: nil)
         }
     }
     final private func setupNewsDetail(){
-        let newsDetail = NewsDetail()
+        let newsDetail = NewsDetail(webViewDelegate: self)
         view.addSubview(newsDetail)
         
         newsDetail.translatesAutoresizingMaskIntoConstraints = false
@@ -83,5 +89,14 @@ class NewsDetailViewController: UIViewController {
         newsDetail.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         
         self.newsDetailView = newsDetail
+    }
+}
+
+extension NewsDetailViewController: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        newsLoaded = false
+    }
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        newsLoaded = true
     }
 }

@@ -9,24 +9,38 @@
 import UIKit
 
 class SavedNewsViewController: UIViewController {
-
+    //MARK: Outlets
+    private weak var newsList: SavedNewsList!
+    
+    //MARK: Lifecycle Hooks
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = .red
+        self.view.backgroundColor = .white
         navigationItem.title = "Saved News"
         // Do any additional setup after loading the view.
+        setupLayout()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        newsList.newsList = SavedNewsStorage.getNewsList()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    //MARK: Layout
+    final private func setupLayout(){
+        setupNewsList()
     }
-    */
-
+    final private func setupNewsList(){
+        let newsList = SavedNewsList()
+        view.addSubview(newsList)
+        
+        newsList.translatesAutoresizingMaskIntoConstraints = false
+        newsList.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        newsList.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        newsList.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        newsList.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        
+        self.newsList = newsList
+    }
+    
 }

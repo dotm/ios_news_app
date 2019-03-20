@@ -14,12 +14,10 @@ class NewsDetail: UIView {
     private weak var webView: WKWebView!
 
     //MARK: Initializers
-    convenience init() {
-        self.init(frame: CGRect.zero)
-    }
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(webViewDelegate: WKNavigationDelegate) {
+        super.init(frame: CGRect.zero)
         setupLayout()
+        setWebViewDelegate(delegate: webViewDelegate)
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -44,7 +42,6 @@ class NewsDetail: UIView {
     final private func setupWebView(){
         let webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
         self.addSubview(webView)
-        webView.uiDelegate = self
         
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
@@ -54,6 +51,9 @@ class NewsDetail: UIView {
         
         self.webView = webView
         loadNews()
+    }
+    final private func setWebViewDelegate(delegate: WKNavigationDelegate){
+        webView.navigationDelegate = delegate
     }
     
     final private func loadBlankPage(){
@@ -72,8 +72,18 @@ class NewsDetail: UIView {
             completion(html ?? defaultHTMLString)
         }
     }
-    final private func loadNews(url: URL? = NewsDetailPointer.getCurrentNews()?.webURL){
-        webView.load(URLRequest(url: url ?? defaultURL_whenNewsNotFound))
+    final private func loadNews(){
+        guard let news = NewsDetailPointer.getCurrentNews() else {
+            webView.load(URLRequest(url: defaultURL_whenNewsNotFound))
+            return
+        }
+        
+        let news_isBookmarked = SavedNewsStorage.getNews(news: news) != nil
+        if news_isBookmarked {
+            webView.loadHTMLString(SavedNewsStorage.getNewsHTML(news: news), baseURL: nil)
+        }else{
+            webView.load(URLRequest(url: news.webURL))
+        }
     }
     
     final private var panTriggered = false
@@ -109,8 +119,4 @@ class NewsDetail: UIView {
         }
     }
 
-}
-
-extension NewsDetail: WKUIDelegate {
-    
 }
