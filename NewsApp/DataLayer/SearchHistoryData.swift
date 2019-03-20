@@ -10,7 +10,7 @@ import Foundation
 
 enum SearchHistoryData {
     static private var history: [String] = loadSearchHistory_fromLocalStorage()
-    static private let historyLimit = 2
+    static private let historyLimit = 10
     
     static func save(query: String?){
         guard let query = query else {return}
