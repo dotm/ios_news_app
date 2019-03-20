@@ -19,7 +19,6 @@ enum SearchHistoryData {
         //keep query on search history unique
         let index = history.firstIndex(of: query)
         if index != nil {
-            print(111)
             history.remove(at: index!)
         }
         

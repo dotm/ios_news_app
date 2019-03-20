@@ -69,6 +69,9 @@ final class NewsFeedList: UIView {
         super.init(coder: aDecoder)
         setupLayout()
     }
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
     
     //MARK: Layout
     final private func setupLayout(){
