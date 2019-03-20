@@ -12,6 +12,7 @@ class NewsFeedViewController: UIViewController {
     //MARK: Outlets
     private weak var searchBar: UISearchBar!
     private weak var newsList: NewsList!
+    private weak var searchHistory: SearchHistory!
 
     //MARK: Lifecycle Hooks
     override func viewDidLoad() {
@@ -30,6 +31,7 @@ class NewsFeedViewController: UIViewController {
     final private func setupLayout(){
         setupSearchBar()
         setupNewsList()
+        setupSearchHistory()
     }
     final private func setupSearchBar(){
         let searchBar = UISearchBar()
@@ -55,15 +57,34 @@ class NewsFeedViewController: UIViewController {
         
         newsList.translatesAutoresizingMaskIntoConstraints = false
         newsList.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        newsList.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        newsList.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         newsList.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         newsList.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         
         self.newsList = newsList
     }
+    final private func setupSearchHistory(){
+        let searchHistory = SearchHistory(delegate: self)
+        view.addSubview(searchHistory)
+        
+        searchHistory.translatesAutoresizingMaskIntoConstraints = false
+        searchHistory.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        searchHistory.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        searchHistory.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        searchHistory.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        
+        searchHistory.isHidden = true
+        self.searchHistory = searchHistory
+    }
 }
 
 extension NewsFeedViewController: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchHistory.isHidden = false
+    }
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchHistory.isHidden = true
+    }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         debounceSearch(delay: 3) {
             self.newsList.query = searchText
@@ -75,6 +96,10 @@ extension NewsFeedViewController: UISearchBarDelegate {
         
         searchBar.text = ""
         self.newsList.query = ""
+    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.newsList.query = searchBar.text ?? ""
+        searchBar.resignFirstResponder()
     }
 }
 
@@ -89,5 +114,11 @@ fileprivate func clearSearchTimer(){
     if let previousTimer = searchTimer {
         previousTimer.invalidate()
         searchTimer = nil
+    }
+}
+
+extension NewsFeedViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        searchBar.text = tableView.cellForRow(at: indexPath)?.textLabel?.text
     }
 }

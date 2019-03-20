@@ -22,6 +22,7 @@
 		37DA2F972241DF22003024C3 /* NewsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DA2F962241DF22003024C3 /* NewsCollectionViewCell.swift */; };
 		37DA2F992241DF49003024C3 /* ColumnFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DA2F982241DF49003024C3 /* ColumnFlowLayout.swift */; };
 		37DA2F9B2241DF72003024C3 /* getCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DA2F9A2241DF72003024C3 /* getCollectionViewLayout.swift */; };
+		37DA2F9D2241F324003024C3 /* SearchHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DA2F9C2241F324003024C3 /* SearchHistory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		37DA2F962241DF22003024C3 /* NewsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCollectionViewCell.swift; sourceTree = "<group>"; };
 		37DA2F982241DF49003024C3 /* ColumnFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnFlowLayout.swift; sourceTree = "<group>"; };
 		37DA2F9A2241DF72003024C3 /* getCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getCollectionViewLayout.swift; sourceTree = "<group>"; };
+		37DA2F9C2241F324003024C3 /* SearchHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 				37DA2F952241DF0E003024C3 /* NewsCollectionView */,
 				3740E7B62240E857001AFE05 /* NewsDetail.swift */,
 				3740E7C222413A0E001AFE05 /* AsynchronousImageView.swift */,
+				37DA2F9C2241F324003024C3 /* SearchHistory.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -266,6 +269,7 @@
 				3740E7AF2240E218001AFE05 /* NewsDetailViewController.swift in Sources */,
 				37DA2F9B2241DF72003024C3 /* getCollectionViewLayout.swift in Sources */,
 				3740E7B32240E46C001AFE05 /* NewsList.swift in Sources */,
+				37DA2F9D2241F324003024C3 /* SearchHistory.swift in Sources */,
 				3740E78E2240E03C001AFE05 /* NewsFeedViewController.swift in Sources */,
 				3740E7BA2240EF65001AFE05 /* ExternalAPI.swift in Sources */,
 				3740E78C2240E03C001AFE05 /* AppDelegate.swift in Sources */,
