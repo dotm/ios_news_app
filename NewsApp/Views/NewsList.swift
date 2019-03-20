@@ -40,10 +40,10 @@ final class NewsList: UIView {
     }
     private var defaultLoadedBackgroundColor = UIColor.white
     private func blinkBackgroundColor(){
-        UIView.animate(withDuration: 1, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             self.loadingIndicator.backgroundColor = .gray
         }) { (_) in
-            UIView.animate(withDuration: 1, animations: {
+            UIView.animate(withDuration: 0.5, animations: {
                 self.loadingIndicator.backgroundColor = self.defaultLoadedBackgroundColor
             }, completion: { (_) in
                 if self.loadingMoreNews {
