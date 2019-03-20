@@ -23,7 +23,6 @@ class NewsDetailViewController: UIViewController {
     //MARK: Lifecycle Hooks
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print(getCurrentNews()?.title)
     }
     override func viewDidLoad() {
         super.viewDidLoad()

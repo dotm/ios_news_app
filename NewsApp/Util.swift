@@ -12,15 +12,40 @@ func getTopNavigationController() -> UINavigationController? {
     return UIApplication.shared.keyWindow?.rootViewController as? UINavigationController
 }
 func goToNewsDetailPage(newsArray: [NewsViewModel], index: Int){
-    let newsDetail = NewsDetailViewController()
     NewsDetailPointer.list = newsArray
     NewsDetailPointer.pointer = index
+    
+    let newsDetail = NewsDetailViewController()
     getTopNavigationController()?.pushViewController(newsDetail, animated: true)
 }
-func getCurrentNews() -> NewsViewModel? {
-    return NewsDetailPointer.list[safe: NewsDetailPointer.pointer]
-}
-fileprivate enum NewsDetailPointer {
+
+enum NewsDetailPointer {
+    static func getCurrentNews() -> NewsViewModel? {
+        print(pointer,list.count)
+        let currentNews = list[safe: pointer]
+        return currentNews
+    }
+    static func moveToPreviousNews() -> NewsViewModel? {
+        pointer -= 1
+        
+        //infinite scroll
+        if pointer < 0 {
+           pointer += list.count
+        }
+        
+        return getCurrentNews()
+    }
+    static func moveToNextNews() -> NewsViewModel? {
+        pointer += 1
+        
+        //infinite scroll
+        if pointer >= list.count {
+            pointer -= list.count
+        }
+        
+        return getCurrentNews()
+    }
+
     fileprivate static var list: [NewsViewModel] = []
     fileprivate static var pointer: Int = 0
 }

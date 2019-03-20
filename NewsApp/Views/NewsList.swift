@@ -128,7 +128,6 @@ extension NewsList: UICollectionViewDataSource {
 #warning("rename NewsList to NewsFeedList")
 extension NewsList: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let news = newsList[indexPath.row]
         goToNewsDetailPage(newsArray: newsList, index: indexPath.row)
     }
     

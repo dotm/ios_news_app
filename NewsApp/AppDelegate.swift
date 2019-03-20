@@ -24,11 +24,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         
         let nav = UINavigationController()
+        nav.interactivePopGestureRecognizer?.isEnabled = false
         let mainView = NewsFeedViewController()
         nav.viewControllers = [mainView]
         
         window?.rootViewController = nav
         window?.makeKeyAndVisible()
+        
+        nav.interactivePopGestureRecognizer?.isEnabled = false
         return true
     }
 
