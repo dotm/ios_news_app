@@ -146,8 +146,10 @@ enum SavedNewsStorage {
         do {
             try managedObjectContext.execute(deleteRequest)
             try managedObjectContext.save()
+            Alert.undo_bookmarkNews_success()
         } catch {
             print("Failed deleting saved news: \(error)")
+            Alert.undo_bookmarkNews_failed()
         }
     }
 }

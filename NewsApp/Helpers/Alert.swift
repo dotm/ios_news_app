@@ -15,6 +15,12 @@ enum Alert {
     static func bookmarkNews_failed(){
         alertUser(title: "Error", message: "Failed to bookmark this news")
     }
+    static func undo_bookmarkNews_success(){
+        alertUser(title: "Deleted", message: "You have successfully remove this news from Bookmarks")
+    }
+    static func undo_bookmarkNews_failed(){
+        alertUser(title: "Error", message: "Failed to delete this news from Bookmarks")
+    }
 }
 
 func alertUser(title: String, message: String, dismissText: String = "OK", completion: ((UIAlertAction)->())? = nil){
