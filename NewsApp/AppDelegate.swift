@@ -23,15 +23,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         
-        let nav = UINavigationController()
-        nav.interactivePopGestureRecognizer?.isEnabled = false
-        let mainView = NewsFeedViewController()
-        nav.viewControllers = [mainView]
+        let newsFeedRootController = UINavigationController()
+        newsFeedRootController.interactivePopGestureRecognizer?.isEnabled = false
+        newsFeedRootController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+        newsFeedRootController.viewControllers = [NewsFeedViewController()]
         
-        window?.rootViewController = nav
+        let savedNewsRootController = UINavigationController()
+        savedNewsRootController.interactivePopGestureRecognizer?.isEnabled = false
+        savedNewsRootController.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 1)
+        savedNewsRootController.viewControllers = [SavedNewsViewController()]
+
+        let tab = UITabBarController()
+        tab.viewControllers = [newsFeedRootController, savedNewsRootController]
+        
+        window?.rootViewController = tab
         window?.makeKeyAndVisible()
         
-        nav.interactivePopGestureRecognizer?.isEnabled = false
+        newsFeedRootController.interactivePopGestureRecognizer?.isEnabled = false
         return true
     }
 
