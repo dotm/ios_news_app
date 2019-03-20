@@ -18,4 +18,5 @@ struct NewsViewModel: Codable {
 }
 
 let emptyID = "null"
+let defaultHTMLString = "about:blank"
 let defaultNewsViewModel = NewsViewModel(_id: emptyID, title: "News Title", webURL: URL(string: "http://dotm.github.io")!, imageURL: nil, date: "Date Unknown", snippet: "No snippet found for this news. No snippet found for this news. No snippet found for this news. No snippet found for this news. No snippet found for this news.")

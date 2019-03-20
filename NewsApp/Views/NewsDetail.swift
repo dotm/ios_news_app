@@ -59,7 +59,7 @@ class NewsDetail: UIView {
     final private func loadBlankPage(){
         webView.load(URLRequest(url: URL(string: "about:blank")!))
     }
-    final private func getCurrentPageHTML(){
+    final func getCurrentPageHTML(completion: @escaping (String)->()){
         let js = "document.documentElement.outerHTML.toString()"
         webView.evaluateJavaScript(js) { (result, error) in
             if let error = error {
@@ -69,14 +69,11 @@ class NewsDetail: UIView {
             guard let result = result else { return }
             let html = result as? String
             
-            print(html)
+            completion(html ?? defaultHTMLString)
         }
     }
     final private func loadNews(url: URL? = NewsDetailPointer.getCurrentNews()?.webURL){
         webView.load(URLRequest(url: url ?? defaultURL_whenNewsNotFound))
-        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { (_) in
-            self.getCurrentPageHTML()
-        }
     }
     
     final private var panTriggered = false

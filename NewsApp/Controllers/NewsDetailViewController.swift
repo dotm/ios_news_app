@@ -32,10 +32,14 @@ class NewsDetailViewController: UIViewController {
     
     //MARK: Actions
     @objc final private func bookmarkCurrentNews(){
-        print("bookmark")
+        newsDetailView.getCurrentPageHTML { (html) in
+            guard let news = NewsDetailPointer.getCurrentNews() else {return}
+            SavedNewsStorage.save(news: news, html: html)
+        }
     }
     @objc final private func removeCurrentNewsFromBookMark(){
-        print("remove bookmark")
+        guard let news = NewsDetailPointer.getCurrentNews() else {return}
+        SavedNewsStorage.delete(news: news)
     }
     
     //MARK: Layout

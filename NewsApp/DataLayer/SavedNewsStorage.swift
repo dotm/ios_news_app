@@ -82,7 +82,6 @@ enum SavedNewsStorage {
         )
     }
     static private func getHTMLString(newsID: String) -> String {
-        let defaultHTMLString = "about:blank"
         do {
             let resultArray = try managedObjectContext.fetch(newsFetchRequest(newsID: newsID)) as! [NSManagedObject]
             let news = resultArray.first as? SavedNewsEntity
