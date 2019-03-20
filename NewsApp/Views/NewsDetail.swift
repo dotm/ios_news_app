@@ -59,8 +59,24 @@ class NewsDetail: UIView {
     final private func loadBlankPage(){
         webView.load(URLRequest(url: URL(string: "about:blank")!))
     }
+    final private func getCurrentPageHTML(){
+        let js = "document.documentElement.outerHTML.toString()"
+        webView.evaluateJavaScript(js) { (result, error) in
+            if let error = error {
+                print("Error evaluating js:", error.localizedDescription)
+            }
+            
+            guard let result = result else { return }
+            let html = result as? String
+            
+            print(html)
+        }
+    }
     final private func loadNews(url: URL? = NewsDetailPointer.getCurrentNews()?.webURL){
         webView.load(URLRequest(url: url ?? defaultURL_whenNewsNotFound))
+        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { (_) in
+            self.getCurrentPageHTML()
+        }
     }
     
     final private var panTriggered = false

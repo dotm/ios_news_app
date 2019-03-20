@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct NewsViewModel {
+struct NewsViewModel: Codable {
     let _id: String
     let title: String
     let webURL: URL

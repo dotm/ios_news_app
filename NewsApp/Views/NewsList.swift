@@ -147,8 +147,7 @@ extension NewsList: UICollectionViewDelegate {
         getNewsList(query: query, page: loadedPages) { (newsViewModels, error) in
             self.loadingMoreNews = false
             guard error == nil else {
-                #warning("implement this")
-                let storedOfflineNews: [NewsViewModel] = []
+                let storedOfflineNews: [NewsViewModel] = OfflineNews.getNews()
                 self.newsList = storedOfflineNews
                 return
             }
@@ -157,8 +156,7 @@ extension NewsList: UICollectionViewDelegate {
                 self.newsList += newsViewModels
                 
                 if self.loadedPages == 0 && query.isEmpty {
-                    #warning("implement this in background thread")
-                    print("store news")
+                    OfflineNews.store(news: self.newsList)
                 }
                 
                 self.loadedPages += 1
