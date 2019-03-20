@@ -9,7 +9,8 @@
 import UIKit
 
 func getTopNavigationController() -> UINavigationController? {
-    return UIApplication.shared.keyWindow?.rootViewController as? UINavigationController
+    let tab = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController
+    return tab?.selectedViewController as? UINavigationController
 }
 func goToNewsDetailPage(newsArray: [NewsViewModel], index: Int){
     NewsDetailPointer.list = newsArray
