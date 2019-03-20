@@ -8,13 +8,7 @@
 
 import UIKit
 
-class NewsDetailViewController: UIViewController {
-    var viewedNews: NewsViewModel? {
-        didSet {
-            newsDetailView.news = viewedNews
-        }
-    }
-    
+class NewsDetailViewController: UIViewController {    
     //MARK: Outlets
     private weak var newsDetailView: NewsDetail!
     
@@ -27,6 +21,10 @@ class NewsDetailViewController: UIViewController {
     }
     
     //MARK: Lifecycle Hooks
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print(getCurrentNews()?.title)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 

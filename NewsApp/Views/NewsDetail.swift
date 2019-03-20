@@ -9,11 +9,6 @@
 import UIKit
 
 class NewsDetail: UIView {
-    var news: NewsViewModel? {
-        didSet {
-            print(news?.title)
-        }
-    }
 
     //MARK: Initializers
     convenience init() {
