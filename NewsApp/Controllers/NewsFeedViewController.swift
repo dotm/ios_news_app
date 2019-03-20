@@ -11,7 +11,7 @@ import UIKit
 class NewsFeedViewController: UIViewController {
     //MARK: Outlets
     private weak var searchBar: UISearchBar!
-    private weak var newsList: NewsList!
+    private weak var newsList: NewsFeedList!
     private weak var searchHistory: SearchHistory!
 
     //MARK: Lifecycle Hooks
@@ -46,7 +46,7 @@ class NewsFeedViewController: UIViewController {
         self.searchBar = searchBar
     }
     final private func setupNewsList(){
-        let newsList = NewsList()
+        let newsList = NewsFeedList()
         view.addSubview(newsList)
         
         newsList.translatesAutoresizingMaskIntoConstraints = false

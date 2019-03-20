@@ -1,5 +1,5 @@
 //
-//  NewsList.swift
+//  NewsFeedList.swift
 //  NewsApp
 //
 //  Created by Yoshua Elmaryono on 19/03/19.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class NewsList: UIView {
+final class NewsFeedList: UIView {
     var query: String = "" {
         didSet {
             guard query != oldValue else {
@@ -112,7 +112,7 @@ final class NewsList: UIView {
     }
 }
 
-extension NewsList: UICollectionViewDataSource {
+extension NewsFeedList: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return newsList.count
     }
@@ -125,11 +125,10 @@ extension NewsList: UICollectionViewDataSource {
         return cell
     }
 }
-#warning("rename NewsList to NewsFeedList")
 
 fileprivate var lastLoading: Date?
 fileprivate var loadingOfflineNews = false
-extension NewsList: UICollectionViewDelegate {
+extension NewsFeedList: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         goToNewsDetailPage(newsArray: newsList, index: indexPath.row)
     }
