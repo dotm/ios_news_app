@@ -30,11 +30,32 @@ class NewsDetailViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    //MARK: Actions
+    @objc final private func bookmarkCurrentNews(){
+        print("bookmark")
+    }
+    @objc final private func removeCurrentNewsFromBookMark(){
+        print("remove bookmark")
+    }
+    
     //MARK: Layout
     final private func setupLayout(){
         self.view.backgroundColor = .white
+        self.navigationItem.rightBarButtonItem = getCorrectBookmarkItem()
         
         setupNewsDetail()
+    }
+    
+    final private func getCorrectBookmarkItem() -> UIBarButtonItem{
+        let news_isBookmarked = false
+        if news_isBookmarked {
+            let removeBookmark_button = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeCurrentNewsFromBookMark))
+            
+            return removeBookmark_button
+        }else{
+            let addBookmark_button = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(bookmarkCurrentNews))
+            return addBookmark_button
+        }
     }
     final private func setupNewsDetail(){
         let newsDetail = NewsDetail()
