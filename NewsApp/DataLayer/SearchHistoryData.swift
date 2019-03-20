@@ -16,6 +16,13 @@ enum SearchHistoryData {
         guard let query = query else {return}
         guard !query.isEmpty else {return}
         
+        //keep query on search history unique
+        let index = history.firstIndex(of: query)
+        if index != nil {
+            print(111)
+            history.remove(at: index!)
+        }
+        
         history.append(query)
         if history.count > historyLimit {
             let sliced = history[history.count-historyLimit..<history.count]
