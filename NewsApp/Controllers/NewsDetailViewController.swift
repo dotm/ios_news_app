@@ -24,6 +24,7 @@ class NewsDetailViewController: UIViewController {
     //MARK: Lifecycle Hooks
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        setCorrectBookmarkItem()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,27 +37,27 @@ class NewsDetailViewController: UIViewController {
         newsDetailView.getCurrentPageHTML { (html) in
             guard let news = NewsDetailPointer.getCurrentNews() else {return}
             SavedNewsStorage.save(news: news, html: html)
-            self.setBookmarkItem()
+            self.setCorrectBookmarkItem()
         }
     }
     @objc final private func removeCurrentNewsFromBookMark(){
         guard let news = NewsDetailPointer.getCurrentNews() else {return}
         SavedNewsStorage.delete(news: news)
-        setBookmarkItem()
+        setCorrectBookmarkItem()
     }
     
     //MARK: Layout
     final private func setupLayout(){
         self.view.backgroundColor = .white
-        setBookmarkItem()
+        setCorrectBookmarkItem()
         
         setupNewsDetail()
     }
-    final private func setBookmarkItem(){
+    final private func setCorrectBookmarkItem(){
         self.navigationItem.rightBarButtonItem = getCorrectBookmarkItem()
     }
     private var newsLoaded = false {
-        didSet {setBookmarkItem()}
+        didSet {setCorrectBookmarkItem()}
     }
     final private func getCorrectBookmarkItem() -> UIBarButtonItem{
         let news_isBookmarked: Bool
