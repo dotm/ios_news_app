@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import WebKit
 
 class NewsDetail: UIView {
+    //MARK: Outlets
+    private weak var webView: WKWebView!
 
     //MARK: Initializers
     convenience init() {
@@ -26,7 +29,7 @@ class NewsDetail: UIView {
     //MARK: Layout
     final private func setupLayout(){
         self.backgroundColor = .gray
-        loadNews()
+        setupWebView()
         
         let previousNewsRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleLeftPanEdge))
         previousNewsRecognizer.edges = .left
@@ -38,19 +41,36 @@ class NewsDetail: UIView {
         nextNewsRecognizer.minimumNumberOfTouches = 1
         self.addGestureRecognizer(nextNewsRecognizer)
     }
-    final private func loadNews(){
-        print(NewsDetailPointer.getCurrentNews()?.webURL)
+    final private func setupWebView(){
+        let webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
+        self.addSubview(webView)
+        webView.uiDelegate = self
+        
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        webView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        webView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        webView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        webView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        
+        self.webView = webView
+        loadNews()
+    }
+    
+    final private func loadNews(url: URL? = NewsDetailPointer.getCurrentNews()?.webURL){
+        webView.load(URLRequest(url: url ?? defaultURL_whenNewsNotFound))
     }
     
     final private var panTriggered = false
     @objc final private func handleLeftPanEdge(gesture: UIScreenEdgePanGestureRecognizer){
         singlePanEvent (gesture: gesture) {
-            print(NewsDetailPointer.moveToPreviousNews()?.webURL)
+            NewsDetailPointer.moveToPreviousNews()
+            loadNews()
         }
     }
     @objc final private func handleRightPanEdge(gesture: UIScreenEdgePanGestureRecognizer){
         singlePanEvent (gesture: gesture) {
-            print(NewsDetailPointer.moveToNextNews()?.webURL)
+            NewsDetailPointer.moveToNextNews()
+            loadNews()
         }
     }
     final private func singlePanEvent(gesture: UIScreenEdgePanGestureRecognizer, closure: ()->()){
@@ -72,4 +92,8 @@ class NewsDetail: UIView {
         }
     }
 
+}
+
+extension NewsDetail: WKUIDelegate {
+    
 }

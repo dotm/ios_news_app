@@ -24,25 +24,21 @@ enum NewsDetailPointer {
         let currentNews = list[safe: pointer]
         return currentNews
     }
-    static func moveToPreviousNews() -> NewsViewModel? {
+    static func moveToPreviousNews() {
         pointer -= 1
         
         //infinite scroll
         if pointer < 0 {
            pointer += list.count
         }
-        
-        return getCurrentNews()
     }
-    static func moveToNextNews() -> NewsViewModel? {
+    static func moveToNextNews(){
         pointer += 1
         
         //infinite scroll
         if pointer >= list.count {
             pointer -= list.count
         }
-        
-        return getCurrentNews()
     }
 
     fileprivate static var list: [NewsViewModel] = []

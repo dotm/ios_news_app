@@ -10,6 +10,7 @@ import UIKit
 
 let NEW_YORK_TIMES_API_KEY = "pe0F0AWLBNiNzAAj9IZnGtK1XUeBG1uS"
 let NEW_YORK_TIMES_ABSOLUTE_URL = URL(string: "http://www.nytimes.com")
+let defaultURL_whenNewsNotFound = URL(string: "https://www.nytimes.com")!
 
 fileprivate var task: URLSessionDataTask?
 func getNewsList(query: String?, page: Int, completion: @escaping ([NewsViewModel]?,Error?)->()){
@@ -42,7 +43,6 @@ func getNewsList(query: String?, page: Int, completion: @escaping ([NewsViewMode
                 let snippet = news["snippet"] as? String
                 
                 let webURL: URL
-                let defaultURL_whenNewsNotFound = URL(string: "https://www.nytimes.com")!
                 do {
                     guard let webURL_string = news["web_url"] as? String else {
                         throw "error001"
