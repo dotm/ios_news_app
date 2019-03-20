@@ -120,7 +120,8 @@ extension NewsFeedList: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CELL_ID, for: indexPath) as! NewsCollectionViewCell
         
-        cell.news = newsList[indexPath.row]
+        let model = newsList[indexPath.row]
+        cell.news = NewsViewModel(model: model)
         
         return cell
     }
