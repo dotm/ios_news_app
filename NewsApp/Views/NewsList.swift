@@ -11,6 +11,10 @@ import UIKit
 final class NewsList: UIView {
     var query: String = "" {
         didSet {
+            guard query != oldValue else {
+                return
+            }
+            
             loadedPages = 0
             newsList = []
             loadMoreNews_andStoreTheFirstPageOffline(query: query, page: loadedPages)
