@@ -65,7 +65,7 @@ final class NewsList: UIView {
         
         setupLoadingIndicator()
         setupCollectionView()
-        loadMoreNews(page: loadedPages)
+        loadMoreNews_andStoreTheFirstPageOffline(page: loadedPages)
     }
     final private func setupLoadingIndicator(){
         let view = UIView()
@@ -99,23 +99,6 @@ final class NewsList: UIView {
     @objc final private func setCollectionViewColumns(){
         newsCollectionView.collectionViewLayout = getCollectionViewLayout()
     }
-    final private func getCollectionViewLayout() -> UICollectionViewFlowLayout {
-        let spacing = CGFloat(20)
-        let margins = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
-        let cellsPerRow: Int
-        
-        let screenWidth = UIScreen.main.bounds.width
-        let screenHeight = UIScreen.main.bounds.height
-        let deviceOrientation_isLandscape = screenWidth > screenHeight
-        if deviceOrientation_isLandscape {
-            cellsPerRow = 4
-        }else{
-            cellsPerRow = 1
-        }
-        
-        let layout = ColumnFlowLayout(cellsPerRow: cellsPerRow, minimumInteritemSpacing: spacing, minimumLineSpacing: spacing, sectionInset: margins)
-        return layout
-    }
 }
 
 extension NewsList: UICollectionViewDataSource {
@@ -131,170 +114,40 @@ extension NewsList: UICollectionViewDataSource {
         return cell
     }
 }
+#warning("rename NewsList to NewsFeedList")
 extension NewsList: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let showingLastNews = indexPath.row == newsList.count - 1
         if showingLastNews {
             if !loadingMoreNews {
-                loadMoreNews(page: loadedPages)
+                loadMoreNews_andStoreTheFirstPageOffline(page: loadedPages)
             }
         }
     }
     
-    func loadMoreNews(page: Int) {
+    func loadMoreNews_andStoreTheFirstPageOffline(page: Int) {
         guard !loadingMoreNews else {return}
         
         loadingMoreNews = true
         getNewsList(query: nil, page: loadedPages) { (newsViewModels, error) in
             self.loadingMoreNews = false
-            guard error == nil else {return}
+            guard error == nil else {
+                #warning("implement this")
+                let storedOfflineNews: [NewsViewModel] = []
+                self.newsList = storedOfflineNews
+                return
+            }
             
             if let newsViewModels = newsViewModels {
                 self.newsList += newsViewModels
+                
+                if self.loadedPages == 0 {
+                    #warning("implement this in background thread")
+                    print("store news")
+                }
+                
                 self.loadedPages += 1
             }
         }
     }
-}
-
-
-final class NewsCollectionViewCell: UICollectionViewCell {
-    //MARK: Properties
-    var news: NewsViewModel = defaultNewsViewModel{
-        didSet {
-            newsTitleLabel.text = news.title
-            newsDateLabel.text = news.date
-            newsSnippet.text = news.snippet
-            
-            //always set .key before the .imageURL for correct caching behavior
-            newsImageView.key = news._id
-            newsImageView.imageURL = news.imageURL
-        }
-    }
-    
-    //MARK: Outlets
-    private weak var newsTitleLabel: UILabel!
-    private weak var newsImageView: AsynchronousImageView!
-    private weak var newsDateLabel: UILabel!
-    private weak var newsSnippet: UITextView!
-    
-    //MARK: Lifecycle Hook
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupLayout()
-    }
-    
-    //MARK: Setup Layout
-    private func setupLayout(){
-        self.backgroundColor = .white
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOffset = CGSize(width: 0, height: 0)
-        self.layer.shadowOpacity = 0.7
-        self.layer.shadowRadius = 4.0
-        
-        setupNewsTitleLabel()
-        setupNewsImageView(previousElement: newsTitleLabel)
-        setupNewsDate(previousElement: newsImageView)
-        setupNewsSnippet(previousElement: newsDateLabel)
-    }
-    private func setupNewsTitleLabel(){
-        let label = UILabel()
-        label.text = news.title
-        label.font = UIFont.boldSystemFont(ofSize: 20)
-        
-        let parent = self
-        parent.addSubview(label)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.centerXAnchor.constraint(equalTo: parent.centerXAnchor).isActive = true
-        label.topAnchor.constraint(equalTo: parent.topAnchor).isActive = true
-        label.widthAnchor.constraint(equalTo: parent.widthAnchor).isActive = true
-        label.heightAnchor.constraint(lessThanOrEqualTo: parent.heightAnchor).isActive = true
-        
-        self.newsTitleLabel = label
-    }
-    private func setupNewsImageView(previousElement: UIView){
-        let imageView = AsynchronousImageView(url: news.imageURL)
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        
-        let parent = self
-        parent.addSubview(imageView)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.centerXAnchor.constraint(equalTo: parent.centerXAnchor).isActive = true
-        imageView.topAnchor.constraint(equalTo: previousElement.bottomAnchor).isActive = true
-        imageView.widthAnchor.constraint(equalTo: parent.widthAnchor).isActive = true
-        imageView.heightAnchor.constraint(lessThanOrEqualTo: parent.heightAnchor, multiplier: 0.5).isActive = true
-        
-        self.newsImageView = imageView
-    }
-    private func setupNewsDate(previousElement: UIView){
-        let label = UILabel()
-        label.text = news.date
-        
-        let parent = self
-        parent.addSubview(label)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.centerXAnchor.constraint(equalTo: parent.centerXAnchor).isActive = true
-        label.topAnchor.constraint(equalTo: previousElement.bottomAnchor).isActive = true
-        label.widthAnchor.constraint(equalTo: parent.widthAnchor).isActive = true
-        label.heightAnchor.constraint(lessThanOrEqualTo: parent.heightAnchor).isActive = true
-        
-        self.newsDateLabel = label
-    }
-    private func setupNewsSnippet(previousElement: UIView){
-        let snippet = UITextView()
-        snippet.isEditable = false
-        snippet.isScrollEnabled = false
-        
-        snippet.text = news.snippet
-        snippet.font = UIFont.systemFont(ofSize: 20)
-        
-        let parent = self
-        parent.addSubview(snippet)
-        snippet.translatesAutoresizingMaskIntoConstraints = false
-        snippet.centerXAnchor.constraint(equalTo: parent.centerXAnchor).isActive = true
-        snippet.topAnchor.constraint(equalTo: previousElement.bottomAnchor).isActive = true
-        snippet.widthAnchor.constraint(equalTo: parent.widthAnchor).isActive = true
-        snippet.bottomAnchor.constraint(lessThanOrEqualTo: parent.bottomAnchor).isActive = true
-        
-        self.newsSnippet = snippet
-    }
-}
-
-final class ColumnFlowLayout: UICollectionViewFlowLayout {
-    
-    let cellsPerRow: Int
-    
-    init(cellsPerRow: Int, minimumInteritemSpacing: CGFloat = 0, minimumLineSpacing: CGFloat = 0, sectionInset: UIEdgeInsets = .zero) {
-        self.cellsPerRow = cellsPerRow
-        super.init()
-        
-        self.minimumInteritemSpacing = minimumInteritemSpacing
-        self.minimumLineSpacing = minimumLineSpacing
-        self.sectionInset = sectionInset
-        self.scrollDirection = .vertical
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func prepare() {
-        super.prepare()
-        
-        guard let collectionView = collectionView else { return }
-        let marginsAndInsets = sectionInset.left + sectionInset.right + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
-        let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
-        itemSize = CGSize(width: itemWidth, height: itemWidth)
-    }
-    
-    override func invalidationContext(forBoundsChange newBounds: CGRect) -> UICollectionViewLayoutInvalidationContext {
-        let context = super.invalidationContext(forBoundsChange: newBounds) as! UICollectionViewFlowLayoutInvalidationContext
-        context.invalidateFlowLayoutDelegateMetrics = newBounds.size != collectionView?.bounds.size
-        return context
-    }
-    
 }
