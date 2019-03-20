@@ -26,10 +26,10 @@ enum SavedNewsStorage {
             print("failure converting to SavedNewsEntity")
             return []
         }
-        let viewModels = entities.map({ (entity) -> NewsModel in
-            return convertToViewModel(entity: entity)
+        let models = entities.map({ (entity) -> NewsModel in
+            return convertToModel(entity: entity)
         })
-        return viewModels
+        return models
     }
     static func getNewsHTML(news: NewsModel) -> String {
         return getHTMLString(newsID: news._id)
@@ -74,7 +74,7 @@ enum SavedNewsStorage {
             return nil
         }
     }
-    static private func convertToViewModel(entity: SavedNewsEntity) -> NewsModel {
+    static private func convertToModel(entity: SavedNewsEntity) -> NewsModel {
         return NewsModel(
             _id: entity.id ?? emptyID,
             title: entity.title ?? "News Title",
@@ -95,7 +95,7 @@ enum SavedNewsStorage {
                 return nil
             }
             
-            return convertToViewModel(entity: newsEntity)
+            return convertToModel(entity: newsEntity)
         } catch {
             print("Failed fetching news by id \(newsID): \(error)")
             return nil

@@ -156,7 +156,7 @@ extension NewsFeedList: UICollectionViewDelegate {
         guard !loadingMoreNews else {return}
         
         loadingMoreNews = true
-        getNewsList(query: query, page: loadedPages) { (newsViewModels, error) in
+        getNewsList(query: query, page: loadedPages) { (newsModels, error) in
             self.loadingMoreNews = false
             guard error == nil else {
                 let storedOfflineNews: [NewsModel] = OfflineNews.getNews()
@@ -165,12 +165,12 @@ extension NewsFeedList: UICollectionViewDelegate {
                 return
             }
             
-            if let newsViewModels = newsViewModels {
+            if let newsModels = newsModels {
                 if loadingOfflineNews {
-                    self.newsList = newsViewModels
+                    self.newsList = newsModels
                     loadingOfflineNews = false
                 }else{
-                    self.newsList += newsViewModels
+                    self.newsList += newsModels
                 }
                 
                 if self.loadedPages == 0 && query.isEmpty {
