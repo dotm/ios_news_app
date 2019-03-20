@@ -23,6 +23,8 @@ class NewsFeedViewController: UIViewController {
     
     //MARK: Layout
     final private func setupLayout(){
+        view.backgroundColor = .white
+        
         setupSearchBar()
         setupNewsList()
         setupSearchHistory()

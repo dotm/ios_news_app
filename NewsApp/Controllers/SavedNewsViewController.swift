@@ -16,8 +16,6 @@ class SavedNewsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = .white
-        navigationItem.title = "Saved News"
         // Do any additional setup after loading the view.
         setupLayout()
     }
@@ -28,6 +26,9 @@ class SavedNewsViewController: UIViewController {
     
     //MARK: Layout
     final private func setupLayout(){
+        self.view.backgroundColor = .white
+        navigationItem.title = "Saved News"
+        
         setupNewsList()
     }
     final private func setupNewsList(){
