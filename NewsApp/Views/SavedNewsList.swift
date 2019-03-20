@@ -9,7 +9,7 @@
 import UIKit
 
 final class SavedNewsList: UIView {
-    var newsList: [NewsViewModel] = SavedNewsStorage.getNewsList() {
+    var newsList: [NewsModel] = SavedNewsStorage.getNewsList() {
         didSet {
             self.newsCollectionView.reloadData()
         }

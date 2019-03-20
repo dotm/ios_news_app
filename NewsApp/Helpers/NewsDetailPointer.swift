@@ -12,7 +12,7 @@ func getTopNavigationController() -> UINavigationController? {
     let tab = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController
     return tab?.selectedViewController as? UINavigationController
 }
-func goToNewsDetailPage(newsArray: [NewsViewModel], index: Int){
+func goToNewsDetailPage(newsArray: [NewsModel], index: Int){
     NewsDetailPointer.list = newsArray
     NewsDetailPointer.pointer = index
     
@@ -21,7 +21,7 @@ func goToNewsDetailPage(newsArray: [NewsViewModel], index: Int){
 }
 
 enum NewsDetailPointer {
-    static func getCurrentNews() -> NewsViewModel? {
+    static func getCurrentNews() -> NewsModel? {
         let currentNews = list[safe: pointer]
         return currentNews
     }
@@ -42,7 +42,7 @@ enum NewsDetailPointer {
         }
     }
 
-    fileprivate static var list: [NewsViewModel] = []
+    fileprivate static var list: [NewsModel] = []
     fileprivate static var pointer: Int = 0
 }
 

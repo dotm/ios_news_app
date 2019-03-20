@@ -17,7 +17,7 @@
 		3740E7B32240E46C001AFE05 /* NewsFeedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3740E7B22240E46C001AFE05 /* NewsFeedList.swift */; };
 		3740E7B72240E857001AFE05 /* NewsDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3740E7B62240E857001AFE05 /* NewsDetail.swift */; };
 		3740E7BA2240EF65001AFE05 /* ExternalAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3740E7B92240EF65001AFE05 /* ExternalAPI.swift */; };
-		3740E7BE22410BF7001AFE05 /* NewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3740E7BD22410BF7001AFE05 /* NewsViewModel.swift */; };
+		3740E7BE22410BF7001AFE05 /* NewsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3740E7BD22410BF7001AFE05 /* NewsModel.swift */; };
 		3740E7C322413A0E001AFE05 /* AsynchronousImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3740E7C222413A0E001AFE05 /* AsynchronousImageView.swift */; };
 		37A5BDE822423928006EA48C /* SavedNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A5BDE722423928006EA48C /* SavedNewsViewController.swift */; };
 		37B7F979224229B000ED01C4 /* OfflineNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F978224229B000ED01C4 /* OfflineNews.swift */; };
@@ -57,7 +57,7 @@
 		3740E7B22240E46C001AFE05 /* NewsFeedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedList.swift; sourceTree = "<group>"; };
 		3740E7B62240E857001AFE05 /* NewsDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsDetail.swift; sourceTree = "<group>"; };
 		3740E7B92240EF65001AFE05 /* ExternalAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAPI.swift; sourceTree = "<group>"; };
-		3740E7BD22410BF7001AFE05 /* NewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModel.swift; sourceTree = "<group>"; };
+		3740E7BD22410BF7001AFE05 /* NewsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsModel.swift; sourceTree = "<group>"; };
 		3740E7C222413A0E001AFE05 /* AsynchronousImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousImageView.swift; sourceTree = "<group>"; };
 		37A5BDE722423928006EA48C /* SavedNewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedNewsViewController.swift; sourceTree = "<group>"; };
 		37B7F978224229B000ED01C4 /* OfflineNews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineNews.swift; sourceTree = "<group>"; };
@@ -114,6 +114,7 @@
 				3740E78B2240E03C001AFE05 /* AppDelegate.swift */,
 				37C2264D224285BB0097F87A /* Helpers */,
 				3740E7B82240EF42001AFE05 /* DataLayer */,
+				37C2265222429F990097F87A /* Models */,
 				3740E7BC22410BDD001AFE05 /* ViewModels */,
 				3740E7B12240E40D001AFE05 /* Views */,
 				3740E7B02240E375001AFE05 /* Controllers */,
@@ -171,7 +172,6 @@
 		3740E7BC22410BDD001AFE05 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				3740E7BD22410BF7001AFE05 /* NewsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -183,6 +183,14 @@
 				37C2264E224285CA0097F87A /* Alert.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		37C2265222429F990097F87A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3740E7BD22410BF7001AFE05 /* NewsModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		37DA2F952241DF0E003024C3 /* NewsCollectionView */ = {
@@ -313,7 +321,7 @@
 				37DA2F992241DF49003024C3 /* ColumnFlowLayout.swift in Sources */,
 				37B7F979224229B000ED01C4 /* OfflineNews.swift in Sources */,
 				3740E7C322413A0E001AFE05 /* AsynchronousImageView.swift in Sources */,
-				3740E7BE22410BF7001AFE05 /* NewsViewModel.swift in Sources */,
+				3740E7BE22410BF7001AFE05 /* NewsModel.swift in Sources */,
 				37DA2F972241DF22003024C3 /* NewsCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

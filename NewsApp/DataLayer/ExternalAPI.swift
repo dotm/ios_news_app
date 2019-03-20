@@ -13,7 +13,7 @@ let NEW_YORK_TIMES_ABSOLUTE_URL = URL(string: "http://www.nytimes.com")
 let defaultURL_whenNewsNotFound = URL(string: "https://www.nytimes.com")!
 
 fileprivate var task: URLSessionDataTask?
-func getNewsList(query: String?, page: Int, completion: @escaping ([NewsViewModel]?,Error?)->()){
+func getNewsList(query: String?, page: Int, completion: @escaping ([NewsModel]?,Error?)->()){
     task?.cancel()
     
     let queryString: String
@@ -35,7 +35,7 @@ func getNewsList(query: String?, page: Int, completion: @escaping ([NewsViewMode
             let response = dictionary?["response"] as? [String:Any]
             let newsList = response?["docs"] as? [[String:Any]]
             
-            let arr = newsList?.map({ (news) -> NewsViewModel in
+            let arr = newsList?.map({ (news) -> NewsModel in
                 let headline = news["headline"] as? [String:Any]
                 let title = headline?["main"] as? String
                 let _id = news["_id"] as? String
@@ -73,7 +73,7 @@ func getNewsList(query: String?, page: Int, completion: @escaping ([NewsViewMode
                 }
                 
                 
-                return NewsViewModel(
+                return NewsModel(
                     _id: _id ?? "_id not found",
                     title: title ?? "Invalid Title",
                     webURL: webURL,

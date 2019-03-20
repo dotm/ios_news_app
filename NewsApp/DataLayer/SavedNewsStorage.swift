@@ -11,27 +11,27 @@ import CoreData
 
 enum SavedNewsStorage {
     //MARK: Public API
-    static func save(news: NewsViewModel, html: String){
+    static func save(news: NewsModel, html: String){
         save_news(news: news, html: html)
     }
-    static func delete(news: NewsViewModel){
+    static func delete(news: NewsModel){
         delete_news(news: news)
     }
-    static func getNews(news: NewsViewModel) -> NewsViewModel? {
+    static func getNews(news: NewsModel) -> NewsModel? {
         return getNews(newsID: news._id)
     }
-    static func getNewsList() -> [NewsViewModel]{
+    static func getNewsList() -> [NewsModel]{
         let list = getAll_savedNews() ?? []
         guard let entities = list as? [SavedNewsEntity] else {
             print("failure converting to SavedNewsEntity")
             return []
         }
-        let viewModels = entities.map({ (entity) -> NewsViewModel in
+        let viewModels = entities.map({ (entity) -> NewsModel in
             return convertToViewModel(entity: entity)
         })
         return viewModels
     }
-    static func getNewsHTML(news: NewsViewModel) -> String {
+    static func getNewsHTML(news: NewsModel) -> String {
         return getHTMLString(newsID: news._id)
     }
     
@@ -74,8 +74,8 @@ enum SavedNewsStorage {
             return nil
         }
     }
-    static private func convertToViewModel(entity: SavedNewsEntity) -> NewsViewModel {
-        return NewsViewModel(
+    static private func convertToViewModel(entity: SavedNewsEntity) -> NewsModel {
+        return NewsModel(
             _id: entity.id ?? emptyID,
             title: entity.title ?? "News Title",
             webURL: entity.webURL ?? URL(string: "http://dotm.github.io")!,
@@ -84,7 +84,7 @@ enum SavedNewsStorage {
             snippet: entity.snippet ?? "No snippet found for this news."
         )
     }
-    static private func getNews(newsID: String) -> NewsViewModel? {
+    static private func getNews(newsID: String) -> NewsModel? {
         do {
             let resultArray = try managedObjectContext.fetch(newsFetchRequest(newsID: newsID)) as! [NSManagedObject]
             guard let result = resultArray.first else {return nil}
@@ -118,7 +118,7 @@ enum SavedNewsStorage {
         
         return fetchRequest
     }
-    static private func save_news(news: NewsViewModel, html: String){
+    static private func save_news(news: NewsModel, html: String){
         let htmlEntity = NSEntityDescription.entity(forEntityName: SAVED_HTML.ENTITY, in: managedObjectContext)!
         let htmlManagedObject = NSManagedObject(entity: htmlEntity, insertInto: managedObjectContext)
         htmlManagedObject.setValue(html, forKey: SAVED_HTML.HTML_STRING)
@@ -141,7 +141,7 @@ enum SavedNewsStorage {
             Alert.bookmarkNews_failed()
         }
     }
-    static private func delete_news(news: NewsViewModel){
+    static private func delete_news(news: NewsModel){
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: newsFetchRequest(newsID: news._id))
         do {
             try managedObjectContext.execute(deleteRequest)

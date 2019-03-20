@@ -20,7 +20,7 @@ final class NewsFeedList: UIView {
             loadMoreNews_andStoreTheFirstPageOffline(query: query, page: loadedPages)
         }
     }
-    var newsList: [NewsViewModel] = [] {
+    var newsList: [NewsModel] = [] {
         didSet {
             DispatchQueue.main.async {
                 self.newsCollectionView.reloadData()
@@ -159,7 +159,7 @@ extension NewsFeedList: UICollectionViewDelegate {
         getNewsList(query: query, page: loadedPages) { (newsViewModels, error) in
             self.loadingMoreNews = false
             guard error == nil else {
-                let storedOfflineNews: [NewsViewModel] = OfflineNews.getNews()
+                let storedOfflineNews: [NewsModel] = OfflineNews.getNews()
                 self.newsList = storedOfflineNews
                 loadingOfflineNews = true
                 return

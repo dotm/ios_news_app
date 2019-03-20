@@ -10,7 +10,7 @@ import UIKit
 
 final class NewsCollectionViewCell: UICollectionViewCell {
     //MARK: Properties
-    var news: NewsViewModel = defaultNewsViewModel{
+    var news: NewsModel = defaultNewsViewModel{
         didSet {
             newsTitleLabel.text = news.title
             newsDateLabel.text = news.date
