@@ -17,6 +17,9 @@ enum SavedNewsStorage {
     static func delete(news: NewsViewModel){
         delete_news(news: news)
     }
+    static func getNews(news: NewsViewModel) -> NewsViewModel? {
+        return getNews(newsID: news._id)
+    }
     static func getNewsList() -> [NewsViewModel]{
         let list = getAll_savedNews() ?? []
         guard let entities = list as? [SavedNewsEntity] else {
@@ -80,6 +83,23 @@ enum SavedNewsStorage {
             date: entity.date ?? "Date Unknown",
             snippet: entity.snippet ?? "No snippet found for this news."
         )
+    }
+    static private func getNews(newsID: String) -> NewsViewModel? {
+        do {
+            let resultArray = try managedObjectContext.fetch(newsFetchRequest(newsID: newsID)) as! [NSManagedObject]
+            guard let result = resultArray.first else {return nil}
+            
+            let newsEntityOptional = result as? SavedNewsEntity
+            guard let newsEntity = newsEntityOptional else {
+                print("failure converting to SavedNewsEntity")
+                return nil
+            }
+            
+            return convertToViewModel(entity: newsEntity)
+        } catch {
+            print("Failed fetching news by id \(newsID): \(error)")
+            return nil
+        }
     }
     static private func getHTMLString(newsID: String) -> String {
         do {
