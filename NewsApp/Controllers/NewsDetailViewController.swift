@@ -35,23 +35,34 @@ class NewsDetailViewController: UIViewController {
         newsDetailView.getCurrentPageHTML { (html) in
             guard let news = NewsDetailPointer.getCurrentNews() else {return}
             SavedNewsStorage.save(news: news, html: html)
+            self.setBookmarkItem()
         }
     }
     @objc final private func removeCurrentNewsFromBookMark(){
         guard let news = NewsDetailPointer.getCurrentNews() else {return}
         SavedNewsStorage.delete(news: news)
+        setBookmarkItem()
     }
     
     //MARK: Layout
     final private func setupLayout(){
         self.view.backgroundColor = .white
-        self.navigationItem.rightBarButtonItem = getCorrectBookmarkItem()
+        setBookmarkItem()
         
         setupNewsDetail()
     }
-    
+    final private func setBookmarkItem(){
+        print(SavedNewsStorage.getNewsList())
+        self.navigationItem.rightBarButtonItem = getCorrectBookmarkItem()
+    }
     final private func getCorrectBookmarkItem() -> UIBarButtonItem{
-        let news_isBookmarked = false
+        let news_isBookmarked: Bool
+        if let currentNews = NewsDetailPointer.getCurrentNews() {
+            news_isBookmarked = SavedNewsStorage.getNews(news: currentNews) != nil
+        }else{
+            news_isBookmarked = false
+        }
+        
         if news_isBookmarked {
             let removeBookmark_button = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeCurrentNewsFromBookMark))
             
