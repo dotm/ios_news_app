@@ -21,7 +21,6 @@ func goToNewsDetailPage(newsArray: [NewsViewModel], index: Int){
 
 enum NewsDetailPointer {
     static func getCurrentNews() -> NewsViewModel? {
-        print(pointer,list.count)
         let currentNews = list[safe: pointer]
         return currentNews
     }

@@ -41,6 +41,20 @@ func getNewsList(query: String?, page: Int, completion: @escaping ([NewsViewMode
                 let date = news["pub_date"] as? String
                 let snippet = news["snippet"] as? String
                 
+                let webURL: URL
+                let defaultURL_whenNewsNotFound = URL(string: "https://www.nytimes.com")!
+                do {
+                    guard let webURL_string = news["web_url"] as? String else {
+                        throw "error001"
+                    }
+                    guard let url = URL(string: webURL_string) else {
+                        throw "error002"
+                    }
+                    webURL = url
+                }catch{
+                    webURL = defaultURL_whenNewsNotFound
+                }
+                
                 let multimedia = news["multimedia"] as? [[String:Any]]
                 let imageForPhone = multimedia?.first
                 let imageURL: URL?
@@ -62,6 +76,7 @@ func getNewsList(query: String?, page: Int, completion: @escaping ([NewsViewMode
                 return NewsViewModel(
                     _id: _id ?? "_id not found",
                     title: title ?? "Invalid Title",
+                    webURL: webURL,
                     imageURL: imageURL,
                     date: date ?? "Invalid Date",
                     snippet: snippet ?? "Invalid Snippet")

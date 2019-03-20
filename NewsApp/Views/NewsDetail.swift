@@ -39,18 +39,18 @@ class NewsDetail: UIView {
         self.addGestureRecognizer(nextNewsRecognizer)
     }
     final private func loadNews(){
-        print(NewsDetailPointer.getCurrentNews()?.title)
+        print(NewsDetailPointer.getCurrentNews()?.webURL)
     }
     
     final private var panTriggered = false
     @objc final private func handleLeftPanEdge(gesture: UIScreenEdgePanGestureRecognizer){
         singlePanEvent (gesture: gesture) {
-            print(NewsDetailPointer.moveToPreviousNews()?.title)
+            print(NewsDetailPointer.moveToPreviousNews()?.webURL)
         }
     }
     @objc final private func handleRightPanEdge(gesture: UIScreenEdgePanGestureRecognizer){
         singlePanEvent (gesture: gesture) {
-            print(NewsDetailPointer.moveToNextNews()?.title)
+            print(NewsDetailPointer.moveToNextNews()?.webURL)
         }
     }
     final private func singlePanEvent(gesture: UIScreenEdgePanGestureRecognizer, closure: ()->()){
