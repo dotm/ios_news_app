@@ -21,12 +21,6 @@ class NewsFeedViewController: UIViewController {
         setupLayout()
     }
     
-    //MARK: Action
-    final private func goToNewsDetailPage(){
-        let newsDetail = NewsDetailViewController()
-        self.navigationController?.pushViewController(newsDetail, animated: true)
-    }
-
     //MARK: Layout
     final private func setupLayout(){
         setupSearchBar()

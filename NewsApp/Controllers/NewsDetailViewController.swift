@@ -9,13 +9,28 @@
 import UIKit
 
 class NewsDetailViewController: UIViewController {
-
+    var viewedNews: NewsViewModel? {
+        didSet {
+            newsDetailView.news = viewedNews
+        }
+    }
+    
+    //MARK: Outlets
+    private weak var newsDetailView: NewsDetail!
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        setupLayout()
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     //MARK: Lifecycle Hooks
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        setupLayout()
     }
     
     //MARK: Layout
@@ -33,5 +48,7 @@ class NewsDetailViewController: UIViewController {
         newsDetail.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         newsDetail.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         newsDetail.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        
+        self.newsDetailView = newsDetail
     }
 }

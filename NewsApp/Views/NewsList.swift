@@ -127,6 +127,11 @@ extension NewsList: UICollectionViewDataSource {
 }
 #warning("rename NewsList to NewsFeedList")
 extension NewsList: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let news = newsList[indexPath.row]
+        goToNewsDetailPage(news: news)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let showingLastNews = indexPath.row == newsList.count - 1
         if showingLastNews {
