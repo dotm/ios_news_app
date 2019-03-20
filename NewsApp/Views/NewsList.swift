@@ -126,6 +126,9 @@ extension NewsList: UICollectionViewDataSource {
     }
 }
 #warning("rename NewsList to NewsFeedList")
+
+fileprivate var lastLoading: Date?
+fileprivate var loadingOfflineNews = false
 extension NewsList: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         goToNewsDetailPage(newsArray: newsList, index: indexPath.row)
@@ -134,13 +137,23 @@ extension NewsList: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let showingLastNews = indexPath.row == newsList.count - 1
         if showingLastNews {
-            if !loadingMoreNews {
+            //limit loading news
+            let secondsLimit_beforeLoadingPost = 2.0
+            let allowedToLoad: Bool
+            if let lastLoading = lastLoading {
+                allowedToLoad = lastLoading < (Date() - secondsLimit_beforeLoadingPost)
+            }else{
+                allowedToLoad = true
+            }
+            lastLoading = Date()
+            
+            if !loadingMoreNews && allowedToLoad {
                 loadMoreNews_andStoreTheFirstPageOffline(query: query, page: loadedPages)
             }
         }
     }
     
-    func loadMoreNews_andStoreTheFirstPageOffline(query: String, page: Int) {
+    private func loadMoreNews_andStoreTheFirstPageOffline(query: String, page: Int) {
         guard !loadingMoreNews else {return}
         
         loadingMoreNews = true
@@ -149,11 +162,17 @@ extension NewsList: UICollectionViewDelegate {
             guard error == nil else {
                 let storedOfflineNews: [NewsViewModel] = OfflineNews.getNews()
                 self.newsList = storedOfflineNews
+                loadingOfflineNews = true
                 return
             }
             
             if let newsViewModels = newsViewModels {
-                self.newsList += newsViewModels
+                if loadingOfflineNews {
+                    self.newsList = newsViewModels
+                    loadingOfflineNews = false
+                }else{
+                    self.newsList += newsViewModels
+                }
                 
                 if self.loadedPages == 0 && query.isEmpty {
                     OfflineNews.store(news: self.newsList)
