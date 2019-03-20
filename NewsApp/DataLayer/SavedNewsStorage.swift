@@ -12,15 +12,10 @@ import CoreData
 enum SavedNewsStorage {
     //MARK: Public API
     static func save(news: NewsViewModel, html: String){
-        DispatchQueue.global(qos: .background).async {
-            //saveNews_toLocalStorage(news)
-            save_news(news: news, html: html)
-        }
+        save_news(news: news, html: html)
     }
     static func delete(news: NewsViewModel){
-        DispatchQueue.global(qos: .background).async {
-            delete_news(news: news)
-        }
+        delete_news(news: news)
     }
     static func getNewsList() -> [NewsViewModel]{
         let list = getAll_savedNews() ?? []
