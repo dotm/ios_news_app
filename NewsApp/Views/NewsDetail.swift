@@ -56,6 +56,9 @@ class NewsDetail: UIView {
         loadNews()
     }
     
+    final private func loadBlankPage(){
+        webView.load(URLRequest(url: URL(string: "about:blank")!))
+    }
     final private func loadNews(url: URL? = NewsDetailPointer.getCurrentNews()?.webURL){
         webView.load(URLRequest(url: url ?? defaultURL_whenNewsNotFound))
     }
@@ -80,6 +83,7 @@ class NewsDetail: UIView {
                 let threshold: CGFloat = 100  // you decide this
                 let translation = abs(gesture.translation(in: self).x)
                 if translation >= threshold  {
+                    loadBlankPage()
                     closure()
                     panTriggered = true
                 }
