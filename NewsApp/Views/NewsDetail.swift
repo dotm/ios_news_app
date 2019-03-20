@@ -80,7 +80,8 @@ class NewsDetail: UIView {
         
         let news_isBookmarked = SavedNewsStorage.getNews(news: news) != nil
         if news_isBookmarked {
-            webView.loadHTMLString(SavedNewsStorage.getNewsHTML(news: news), baseURL: nil)
+            //webView.loadHTMLString(SavedNewsStorage.getNewsHTML(news: news), baseURL: nil)
+            webView.load(URLRequest(url: news.webURL))
         }else{
             webView.load(URLRequest(url: news.webURL))
         }
