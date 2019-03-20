@@ -71,12 +71,17 @@ class NewsDetailViewController: UIViewController {
             return removeBookmark_button
         }
         
+        let addBookmark_button = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(bookmarkCurrentNews))
+        return addBookmark_button
+        
+        /* uncomment this after 'save news offline' feature works correctly
         if newsLoaded {
             let addBookmark_button = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(bookmarkCurrentNews))
             return addBookmark_button
         }else{
             return UIBarButtonItem(title: "Loading", style: UIBarButtonItem.Style.plain, target: nil, action: nil)
         }
+         */
     }
     final private func setupNewsDetail(){
         let newsDetail = NewsDetail(webViewDelegate: self)
