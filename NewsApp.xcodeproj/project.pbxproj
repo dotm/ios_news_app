@@ -23,6 +23,7 @@
 		37DA2F992241DF49003024C3 /* ColumnFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DA2F982241DF49003024C3 /* ColumnFlowLayout.swift */; };
 		37DA2F9B2241DF72003024C3 /* getCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DA2F9A2241DF72003024C3 /* getCollectionViewLayout.swift */; };
 		37DA2F9D2241F324003024C3 /* SearchHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DA2F9C2241F324003024C3 /* SearchHistory.swift */; };
+		37DA2F9F2241F979003024C3 /* SearchHistoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DA2F9E2241F979003024C3 /* SearchHistoryData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		37DA2F982241DF49003024C3 /* ColumnFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnFlowLayout.swift; sourceTree = "<group>"; };
 		37DA2F9A2241DF72003024C3 /* getCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getCollectionViewLayout.swift; sourceTree = "<group>"; };
 		37DA2F9C2241F324003024C3 /* SearchHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistory.swift; sourceTree = "<group>"; };
+		37DA2F9E2241F979003024C3 /* SearchHistoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				3740E7B92240EF65001AFE05 /* ExternalAPI.swift */,
+				37DA2F9E2241F979003024C3 /* SearchHistoryData.swift */,
 			);
 			path = DataLayer;
 			sourceTree = "<group>";
@@ -266,6 +269,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37DA2F9F2241F979003024C3 /* SearchHistoryData.swift in Sources */,
 				3740E7AF2240E218001AFE05 /* NewsDetailViewController.swift in Sources */,
 				37DA2F9B2241DF72003024C3 /* getCollectionViewLayout.swift in Sources */,
 				3740E7B32240E46C001AFE05 /* NewsList.swift in Sources */,

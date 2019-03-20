@@ -85,13 +85,7 @@ extension NewsFeedViewController: UISearchBarDelegate {
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchHistory.isHidden = true
     }
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        debounceSearch(delay: 3) {
-            self.newsList.query = searchText
-        }
-    }
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        clearSearchTimer()
         searchBar.resignFirstResponder()
         
         searchBar.text = ""
@@ -100,20 +94,8 @@ extension NewsFeedViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.newsList.query = searchBar.text ?? ""
         searchBar.resignFirstResponder()
-    }
-}
-
-fileprivate var searchTimer: Timer?
-fileprivate func debounceSearch(delay: TimeInterval, closure: @escaping ()->()){
-    clearSearchTimer()
-    searchTimer = Timer.scheduledTimer(withTimeInterval: delay, repeats: false) { (_) in
-        closure()
-    }
-}
-fileprivate func clearSearchTimer(){
-    if let previousTimer = searchTimer {
-        previousTimer.invalidate()
-        searchTimer = nil
+        SearchHistoryData.save(query: searchBar.text)
+        searchHistory.reloadData()
     }
 }
 
