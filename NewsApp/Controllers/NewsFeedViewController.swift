@@ -10,6 +10,7 @@ import UIKit
 
 class NewsFeedViewController: UIViewController {
     //MARK: Outlets
+    private weak var searchBar: UISearchBar!
     private weak var newsList: NewsList!
 
     //MARK: Lifecycle Hooks
@@ -27,9 +28,26 @@ class NewsFeedViewController: UIViewController {
 
     //MARK: Layout
     final private func setupLayout(){
-        self.title = "News Feed"
-        
+        setupSearchBar()
         setupNewsList()
+    }
+    final private func setupSearchBar(){
+        let searchBar = UISearchBar()
+        searchBar.sizeToFit()
+        searchBar.placeholder = "Search News"
+        searchBar.showsCancelButton = true
+        let searchBarCancelButtonColor = UIColor.blue
+        UIBarButtonItem
+            .appearance(whenContainedInInstancesOf: [UISearchBar.self])
+            .setTitleTextAttributes(
+                [NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): searchBarCancelButtonColor],
+                for: .normal
+            )
+        searchBar.delegate = self
+        
+        navigationItem.titleView = searchBar
+
+        self.searchBar = searchBar
     }
     final private func setupNewsList(){
         let newsList = NewsList()
@@ -45,3 +63,29 @@ class NewsFeedViewController: UIViewController {
     }
 }
 
+extension NewsFeedViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        debounceSearch(delay: 3) {
+            self.newsList.query = searchText
+        }
+    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        clearSearchTimer()
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+    }
+}
+
+fileprivate var searchTimer: Timer?
+fileprivate func debounceSearch(delay: TimeInterval, closure: @escaping ()->()){
+    clearSearchTimer()
+    searchTimer = Timer.scheduledTimer(withTimeInterval: delay, repeats: false) { (_) in
+        closure()
+    }
+}
+fileprivate func clearSearchTimer(){
+    if let previousTimer = searchTimer {
+        previousTimer.invalidate()
+        searchTimer = nil
+    }
+}

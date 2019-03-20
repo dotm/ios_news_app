@@ -11,12 +11,20 @@ import UIKit
 let NEW_YORK_TIMES_API_KEY = "pe0F0AWLBNiNzAAj9IZnGtK1XUeBG1uS"
 let NEW_YORK_TIMES_ABSOLUTE_URL = URL(string: "http://www.nytimes.com")
 
+fileprivate var task: URLSessionDataTask?
 func getNewsList(query: String?, page: Int, completion: @escaping ([NewsViewModel]?,Error?)->()){
-    let emptyQuery = ""
-    let urlString = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=\(query ?? emptyQuery)&page=\(page)&api-key=\(NEW_YORK_TIMES_API_KEY)"
+    task?.cancel()
+    
+    let queryString: String
+    if let query = query {
+        queryString = parseSearchQuery(query: query)
+    }else{
+        queryString = ""
+    }
+    let urlString = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=\(queryString)&page=\(page)&api-key=\(NEW_YORK_TIMES_API_KEY)"
     let url = URL(string: urlString)!
     
-    let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+    task = URLSession.shared.dataTask(with: url) { (data, response, error) in
         do {
             guard let data = data, error == nil else {
                 throw "Error fetching news list data: \(error!.localizedDescription)"
@@ -65,5 +73,15 @@ func getNewsList(query: String?, page: Int, completion: @escaping ([NewsViewMode
             print(error.localizedDescription)
         }
     }
-    task.resume()
+    task?.resume()
+}
+
+fileprivate func parseSearchQuery(query: String) -> String {
+    let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
+    
+    let whitespaces = "\\s+"
+    let regex = try! NSRegularExpression(pattern: whitespaces, options: NSRegularExpression.Options.caseInsensitive)
+    let result = regex.stringByReplacingMatches(in: trimmed, options: .withoutAnchoringBounds, range: NSMakeRange(0, trimmed.count), withTemplate: "+")
+    
+    return result
 }

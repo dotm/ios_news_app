@@ -9,6 +9,13 @@
 import UIKit
 
 final class NewsList: UIView {
+    var query: String = "" {
+        didSet {
+            loadedPages = 0
+            newsList = []
+            loadMoreNews_andStoreTheFirstPageOffline(query: query, page: loadedPages)
+        }
+    }
     var newsList: [NewsViewModel] = [] {
         didSet {
             DispatchQueue.main.async {
@@ -65,7 +72,7 @@ final class NewsList: UIView {
         
         setupLoadingIndicator()
         setupCollectionView()
-        loadMoreNews_andStoreTheFirstPageOffline(page: loadedPages)
+        loadMoreNews_andStoreTheFirstPageOffline(query: query, page: loadedPages)
     }
     final private func setupLoadingIndicator(){
         let view = UIView()
@@ -120,16 +127,16 @@ extension NewsList: UICollectionViewDelegate {
         let showingLastNews = indexPath.row == newsList.count - 1
         if showingLastNews {
             if !loadingMoreNews {
-                loadMoreNews_andStoreTheFirstPageOffline(page: loadedPages)
+                loadMoreNews_andStoreTheFirstPageOffline(query: query, page: loadedPages)
             }
         }
     }
     
-    func loadMoreNews_andStoreTheFirstPageOffline(page: Int) {
+    func loadMoreNews_andStoreTheFirstPageOffline(query: String, page: Int) {
         guard !loadingMoreNews else {return}
         
         loadingMoreNews = true
-        getNewsList(query: nil, page: loadedPages) { (newsViewModels, error) in
+        getNewsList(query: query, page: loadedPages) { (newsViewModels, error) in
             self.loadingMoreNews = false
             guard error == nil else {
                 #warning("implement this")
@@ -141,7 +148,7 @@ extension NewsList: UICollectionViewDelegate {
             if let newsViewModels = newsViewModels {
                 self.newsList += newsViewModels
                 
-                if self.loadedPages == 0 {
+                if self.loadedPages == 0 && query.isEmpty {
                     #warning("implement this in background thread")
                     print("store news")
                 }
