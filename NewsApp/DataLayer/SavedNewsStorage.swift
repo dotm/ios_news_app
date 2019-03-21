@@ -105,10 +105,10 @@ enum SavedNewsStorage {
         do {
             let resultArray = try managedObjectContext.fetch(newsFetchRequest(newsID: newsID)) as! [NSManagedObject]
             let news = resultArray.first as? SavedNewsEntity
-            return news?.savedHTML?.htmlString ?? defaultHTMLString
+            return news?.savedHTML?.htmlString ?? blankPage_HTMLString
         } catch {
             print("Failed fetching html string of \(newsID): \(error)")
-            return defaultHTMLString
+            return blankPage_HTMLString
         }
     }
     static private func newsFetchRequest(newsID: String) -> NSFetchRequest<NSFetchRequestResult> {

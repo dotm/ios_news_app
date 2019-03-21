@@ -69,7 +69,7 @@ class NewsDetail: UIView {
             guard let result = result else { return }
             let html = result as? String
             
-            completion(html ?? defaultHTMLString)
+            completion(html ?? blankPage_HTMLString)
         }
     }
     final private func loadNews(){
