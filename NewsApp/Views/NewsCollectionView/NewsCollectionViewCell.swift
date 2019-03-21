@@ -98,6 +98,8 @@ final class NewsCollectionViewCell: UICollectionViewCell {
         let snippet = UITextView()
         snippet.isEditable = false
         snippet.isScrollEnabled = false
+        snippet.isSelectable = false
+        snippet.isUserInteractionEnabled = false
         
         snippet.text = news.snippet
         snippet.font = UIFont.systemFont(ofSize: 20)
