@@ -43,6 +43,7 @@ class NewsFeedViewController: UIViewController {
             )
         searchBar.delegate = self
         
+        navigationItem.title = "News Feed"
         navigationItem.titleView = searchBar
 
         self.searchBar = searchBar
