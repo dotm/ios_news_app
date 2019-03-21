@@ -57,7 +57,7 @@ class NewsDetail: UIView {
     }
     
     final private func loadBlankPage(){
-        webView.load(URLRequest(url: URL(string: "about:blank")!))
+        webView.load(URLRequest(url: URL(string: blankPage_HTMLString)!))
     }
     final func getCurrentPageHTML(completion: @escaping (String)->()){
         let js = "document.documentElement.outerHTML.toString()"

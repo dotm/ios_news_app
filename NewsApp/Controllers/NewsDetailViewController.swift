@@ -12,6 +12,7 @@ import WebKit
 class NewsDetailViewController: UIViewController {    
     //MARK: Outlets
     private weak var newsDetailView: NewsDetail!
+    private let loadingAlert = LoadingAlert.getLoadingAlert()
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -57,7 +58,9 @@ class NewsDetailViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = getCorrectBookmarkItem()
     }
     private var newsLoaded = false {
-        didSet {setCorrectBookmarkItem()}
+        didSet {
+            setCorrectBookmarkItem()
+        }
     }
     final private func getCorrectBookmarkItem() -> UIBarButtonItem{
         let news_isBookmarked: Bool
@@ -101,6 +104,11 @@ class NewsDetailViewController: UIViewController {
 extension NewsDetailViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         newsLoaded = false
+        
+        self.present(loadingAlert, animated: true, completion: nil)
+        Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (_) in
+            self.loadingAlert.dismiss(animated: true, completion: nil)
+        }
     }
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         newsLoaded = true

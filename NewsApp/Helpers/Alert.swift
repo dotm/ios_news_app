@@ -55,3 +55,27 @@ extension UIApplication {
         return controller
     }
 }
+
+class LoadingAlert {
+    static func getLoadingAlert() -> UIAlertController {
+        let loadingAlertController = UIAlertController.init(title: nil, message: "Loading..", preferredStyle: .alert)
+        
+        let indicator = UIActivityIndicatorView(frame: loadingAlertController.view.bounds)
+        
+        indicator.frame.origin.x = -60
+        indicator.style = .gray
+        indicator.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        loadingAlertController.view.addSubview(indicator)
+        indicator.startAnimating()
+        
+        return loadingAlertController
+    }
+    
+    static func show(vc:UIViewController) {
+        vc.navigationController?.present(getLoadingAlert(), animated: true, completion: nil)
+    }
+    
+    static func dismiss() {
+        getLoadingAlert().dismiss(animated: true, completion: nil)
+    }
+}
